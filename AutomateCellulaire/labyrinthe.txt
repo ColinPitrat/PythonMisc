@@ -1,0 +1,40 @@
+0 = mur
+1 = case vide
+2 = sortie du labyrinthe
+3 = aller en haut
+4 = aller a gauche
+5 = aller en droite
+6 = aller a bas
+
+Si on est une case vide:
+  - Si un voisin est la sortie, on prend l'état correspondant à sa direction.
+  - Si un voisin est une direction, on prend l'état correspondant à sa direction.
+Ainsi, les cases vides se remplissent progressivement jusqu'à atteindre l'entrée du labyrinthe. 
+Depuis l'entrée, il suffit alors de suivre la direction donnée par l'état de chaque case pour aboutir à la sortie
+
+Transition sur un automate en 2D (voisinage direct): A devient F
+  B   
+C A D
+  E  
+
+d: A B C D E -> F
+
+Transition sur un automate en 2D (voisinage de vonNeumann): A devient K
+vN: A B C D E F G H I -> K
+
+
+  0  
+X 1 X -> 3
+  X  
+
+  X  
+0 1 X -> 4
+  X  
+
+  X  
+X 1 0 -> 5
+  X  
+
+  X  
+X 1 X -> 6
+  X  

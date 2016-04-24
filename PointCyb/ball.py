@@ -1,0 +1,36 @@
+#!/usr/bin/python2
+#import sys, pygame
+import pygame
+pygame.init()
+
+size = width, height = 800, 600
+speed = [2, 2]
+black = 0, 0, 0
+
+screen = pygame.display.set_mode(size)
+pygame.display.set_caption("Balle rebondissante")
+
+ball = pygame.image.load("ressources/ball.gif")
+ballrect = ball.get_rect()
+
+quit = False
+while quit != True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            quit = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                quit = True
+
+
+    ballrect = ballrect.move(speed)
+    if ballrect.left < 0 or ballrect.right > width:
+        speed[0] = -speed[0]
+    if ballrect.top < 0 or ballrect.bottom > height:
+        speed[1] = -speed[1]
+
+    screen.fill(black)
+    screen.blit(ball, ballrect)
+    pygame.display.flip()
+
+pygame.quit()

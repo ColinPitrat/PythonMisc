@@ -1,0 +1,269 @@
+#!/usr/bin/python2
+import sys, pygame, random
+pygame.init()
+
+board = pygame.image.load("ressources/plateau.png")
+cross = pygame.image.load("ressources/croix.png")
+circle = pygame.image.load("ressources/rond.png")
+screen = pygame.display.set_mode([board.get_width(), board.get_height()])
+pygame.display.set_caption("Morpion")
+#pygame.mixer.init()
+
+# True to play against computer
+IA = True
+nextPlay = 'X'
+
+# Really depends on the board picture
+x_margin = 4
+y_margin = 4
+x_step = 102
+y_step = 102
+
+origin = pygame.Rect(0, 0, 0, 0)
+boardPlaces = [ ]
+boardState = [ [ 0, 0, 0 ], [ 0, 0, 0], [0, 0, 0] ]
+
+errorSound = pygame.mixer.Sound("ressources/Error.ogg")
+
+# Initialize board rectangles
+for i in range(0, 3):
+    line = []
+    for j in range(0, 3):
+        line.append(pygame.Rect((x_step + x_margin)*j + x_margin, (y_step + y_margin)*i + y_margin, x_step, y_step))
+    boardPlaces.append(line)
+
+def resetBoard():
+    for i in range(0, 3):
+        for j in range(0, 3):
+            boardState[i][j] = 0
+    drawBoard()
+
+def winner():
+    # Check lines
+    for i in range(0, 3):
+        lineElt = boardState[i][0]
+        if lineElt != 0 and lineElt == boardState[i][1] and lineElt == boardState[i][2]:
+            return lineElt
+    # Check columns
+    for j in range(0, 3):
+        lineElt = boardState[0][j]
+        if lineElt != 0 and lineElt == boardState[1][j] and lineElt == boardState[2][j]:
+            return lineElt
+    # Check diagonals
+    lineElt = boardState[0][0]
+    if lineElt != 0 and lineElt == boardState[1][1] and lineElt == boardState[2][2]:
+        return lineElt
+    lineElt = boardState[0][2]
+    if lineElt != 0 and lineElt == boardState[1][1] and lineElt == boardState[2][0]:
+        return lineElt
+    return 0
+        
+def finished():
+    if winner() != 0:
+        return True
+    for i in range(0, 3):
+        for j in range(0, 3):
+            if boardState[i][j] == 0:
+                return False
+    return True
+
+def countInLine(line):
+    foundZero = 0
+    foundX = 0
+    foundO = 0
+    for j in range(0, 3):
+        if boardState[line][j] == 0:
+            foundZero += 1
+        elif boardState[line][j] == 'O':
+            foundO += 1
+        elif boardState[line][j] == 'X':
+            foundX += 1
+    return (foundZero == 1 and (foundX == 2 or foundO == 2))
+
+def countInCol(col):
+    foundZero = 0
+    foundX = 0
+    foundO = 0
+    for i in range(0, 3):
+        if boardState[i][col] == 0:
+            foundZero += 1
+        elif boardState[i][col] == 'O':
+            foundO += 1
+        elif boardState[i][col] == 'X':
+            foundX += 1
+    return (foundZero == 1 and (foundX == 2 or foundO == 2))
+
+def countInDiag1():
+    foundZero = 0
+    foundX = 0
+    foundO = 0
+    for i in range(0, 3):
+        if boardState[i][i] == 0:
+            foundZero += 1
+        elif boardState[i][i] == 'O':
+            foundO += 1
+        elif boardState[i][i] == 'X':
+            foundX += 1
+    return (foundZero == 1 and (foundX == 2 or foundO == 2))
+
+def countInDiag2():
+    foundZero = 0
+    foundX = 0
+    foundO = 0
+    for i in range(0, 3):
+        if boardState[i][2-i] == 0:
+            foundZero += 1
+        elif boardState[i][2-i] == 'O':
+            foundO += 1
+        elif boardState[i][2-i] == 'X':
+            foundX += 1
+    return (foundZero == 1 and (foundX == 2 or foundO == 2))
+
+def playInLine(line):
+    for j in range(0, 3):
+        if boardState[line][j] == 0:
+            boardState[line][j] = 'O'
+            return
+
+def playInCol(col):
+    for i in range(0, 3):
+        if boardState[i][col] == 0:
+            boardState[i][col] = 'O'
+            return
+
+def playInDiag1():
+    for i in range(0, 3):
+        if boardState[i][i] == 0:
+            boardState[i][i] = 'O'
+            return
+
+def playInDiag2():
+    for i in range(0, 3):
+        if boardState[i][2-i] == 0:
+            boardState[i][2-i] = 'O'
+            return
+
+def playByDefault():
+    # First in corners
+    if boardState[0][0] == 0:
+        boardState[0][0] = 'O'
+        return
+    if boardState[0][2] == 0:
+        boardState[0][2] = 'O'
+        return
+    if boardState[2][0] == 0:
+        boardState[2][0] = 'O'
+        return
+    if boardState[2][2] == 0:
+        boardState[2][2] = 'O'
+        return
+    # Then on borders
+    if boardState[0][1] == 0:
+        boardState[0][1] = 'O'
+        return
+    if boardState[1][2] == 0:
+        boardState[1][2] = 'O'
+        return
+    if boardState[2][1] == 0:
+        boardState[2][1] = 'O'
+        return
+    if boardState[1][0] == 0:
+        boardState[1][0] = 'O'
+        return
+    
+def computerPlays():
+    played = False
+    if not finished():
+        # Always play center if available
+        if boardState[1][1] == 0 and False:
+            boardState[1][1] = 'O'
+            return
+        # Otherwise plays in the first alignment found with 2 case used by same player
+        # It means either winning or countering the player
+        else:
+            for i in range(0, 3):
+                if countInLine(i):
+                    playInLine(i)
+                    return
+                if countInCol(i):
+                    playInCol(i)
+                    return
+                if countInDiag1():
+                    playInDiag1()
+                    return
+                if countInDiag2():
+                    playInDiag2()
+                    return
+        # If we arrive here, we need to find a place elsewhere
+        playByDefault()
+
+# Callback for when a click occurs
+def mouse_clicked(x, y):
+    global nextPlay
+    if finished():
+        errorSound.play()
+        return
+    x_min = x_margin
+    y_min = y_margin
+    i = 0
+    col = -1
+    row = -1
+    while i < 3:
+        if x > x_min and x < x_min + x_step:
+            col = i
+        if y > y_min and y < y_min + y_step:
+            row = i
+        i += 1
+        x_min += x_step + x_margin
+        y_min += y_step + y_margin
+    if col == -1 or row == -1:
+        return
+    if boardState[row][col] == 0:
+        boardState[row][col] = nextPlay
+    else:
+        errorSound.play()
+        return
+    if IA:
+        computerPlays()
+    else:
+        if nextPlay == 'X':
+            nextPlay = 'O'
+        else:
+            nextPlay = 'X'
+
+def drawBoard():
+    screen.blit(board, origin)
+    for i in range(0, 3):
+        for j in range(0,3):
+            if boardState[i][j] == 'X':
+                screen.blit(cross, boardPlaces[i][j])
+            elif boardState[i][j] == 'O':
+                screen.blit(circle, boardPlaces[i][j])
+    pygame.display.flip()
+
+def quitGame():
+    pygame.mixer.music.stop()
+#    pygame.mixer.quit()
+    pygame.quit()
+    sys.exit()
+    
+pygame.mixer.music.load("ressources/Music.ogg")
+pygame.mixer.music.set_volume(1.0)
+pygame.mixer.music.play(-1, 0.0)
+
+# Main loop of the game
+while True:
+#    pygame.mouse.set_visible(True)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: quitGame()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE: quitGame()
+            if event.key == pygame.K_r: resetBoard()
+            if event.key == pygame.K_t:
+                nextPlay = 'X'
+                IA = not IA
+                resetBoard()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_clicked(event.pos[0], event.pos[1])
+
+    drawBoard()

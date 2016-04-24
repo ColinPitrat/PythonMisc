@@ -1,0 +1,44 @@
+
+Part 1: 45 mn + 15 mn d'exercices ?
+ - Installer python & pygame - (10 mn)
+ - Lancer IDLE - "Bonjour tout le monde" en ligne de commande - (5 mn)
+ - "Bonjour tout le monde" en fichier, lancement depuis windows (double-clic sur le fichier) - (5 mn)
+ - Calculs: 8*3.57 , (5 + 30 - 10) * 52 , 24 / 6 ..., Variables (personnes = 10 / print personnes / pieds = personnes * 2, doigts = personnes * 10 etc ...) - (10 mn)
+ - Types de variables: int, float, string ... - (5mn)
+ - Listes, tuples ... - (5mn)
+ - Lire les entrées de l'utilisteur: input - (5mn)
+
+ - Exercices: 
+   - un programme qui vous demande votre objet préféré, votre couleur préférée, votre nourriture préférée et crée une liste contenant les 3
+   - un programme poli qui vous demande votre prénom et vous répond en l'utilisant
+   - un programme qui vous demande votre age et vous répond votre age en mois
+   - combien de bonbons avez vous si vous avez 3 boites de 25 chocolats et 10 sacs de 32 bonbons
+
+Part 2: 35 mn + 25 mn d'exercice ?
+ - If, If else, If elif else, If elif elif elif elif ... else - (10 mn)
+ - While - (5 mn)
+ - For - (5 mn)
+ - Commentaires - (5 mn)
+ - Fonctions - (5 mn)
+ - Random - (5 mn)
+
+ - Exercice: 
+   - un programme qui choisit un nombre au hasard et vous demande de le trouver, en vous répondant plus ou moins (ou gagné !) à chaque essai. Compter le nombre de coups et faire perdre le joueur si plus de X coups
+
+Part 3: 60 mn + 60 mn d'exercices ?
+ - Initialiser pygame, boucle de jeu, boucle d'évènements - (10 mn)
+ - Coordonnées, afficher une image à un endroit donné, la faire bouger (ball) - (10 mn)
+ - Evenements: cliquer (up/down), bouger la souris, presser une touche (up/down) - (10 mn)
+ - Afficher du texte - (10 mn)
+ - Dessiner: pygame.draw.rect,circle,ellipse,polygon,arc,line,lines ... - (10 mn)
+ - Time - (10 mn)
+ - Transormation: scale - (10 mn)
+
+ - Exercice:
+   - un programme qui affiche une image quelques secondes. Il faut cliquer dessus. Lorsque c'est réussi, on gagne un point et l'image suivant est plus petite. Après 3 échecs successifs, c'est perdu !
+   - des étoiles de couleur et de taille variables qui défilent à une vitesse variable
+
+Exercices globaux:
+ - Chiffrement de césar & cassage du chiffrement
+ - Reversi + different kinds of AI + simulation mode (playing 1000 games AI vs. AI and giving result)
+ - Eviter les trucs qui tombent ! (dirigé à la souris ou au clavier)

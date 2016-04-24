@@ -1,0 +1,165 @@
+Simulons des bouchons à l'aide d'un automate cellulaire.
+
+Premier modèle simple: 2 états (1 = voiture présente, 0 = pas de voiture).
+Si la place devant elle est libre, la voiture avance. Sinon elle reste à sa place.
+
+111 -> la voiture dans la cellule ne peut pas avancer et reste deonc en place -> 1
+110 -> la voiture dans la cellule peut avancer, celle derrière n'avance pas tout de suite -> 0
+101 -> la voiture dans la cellule précédente peut avancer -> 1
+100 -> la voiture dans la cellule précédente peut avancer -> 1
+011 -> la voiture dans la cellule ne peut pas avancer et reste donc en place -> 1
+010 -> la voiture dans la cellule peut avancer -> 0
+001 -> pas de voiture pour venir remplir la cellule -> 0
+000 -> pas de voiture pour venir remplir la cellule -> 0
+Generation n   111 110 101 100 011 010 001 000
+Generation n+1  1   0   1   1   1   0   0   0
+Règle: 184
+
+Ce modèle montre que les bouchons devraient progresser "vers l'arrière" à la vitesse des voitures et que les zones sans voitures devraient, elles avancer à la vitesse des voitures. Par contre, il n'explique pas la formation des bouchons.
+Evidemment, ce modèle est très simplifié ! En particulier, les voitures vont toutes à la même vitesse et sont soit arrêtées, soit en marche.
+
+Prenons un modèle plus complèxe: 
+0 = pas de voiture
+1 = voiture arretée
+2 = voiture démarrant
+3 = voiture avançant
+4 = voiture freinant
+
+000 -> 0
+001 -> 0
+002 -> 0
+003 -> 0
+004 -> 0
+010 -> 2
+011 -> 1
+012 -> 1
+013 -> 1
+014 -> 1
+020 -> 0
+021 -> 1
+022 -> 1
+023 -> 1
+024 -> 1
+030 -> 0
+031 -> 1
+032 -> 1
+033 -> 0
+034 -> 1
+040 -> 1
+041 -> 1
+042 -> 1
+043 -> 1
+044 -> 1
+100 -> 0
+101 -> 0
+102 -> 0
+103 -> 0
+104 -> 0
+110 -> 2
+111 -> 1
+112 -> 1
+113 -> 1
+114 -> 1
+120 -> 0
+121 -> 1
+122 -> 1
+123 -> 1
+124 -> 1
+130 -> 0
+131 -> 1
+132 -> 1
+133 -> 0
+134 -> 1
+140 -> 0
+141 -> 1
+142 -> 1
+143 -> 1
+144 -> 1
+200 -> 3
+201 -> 4
+202 -> 3
+203 -> 3
+204 -> 4
+210 -> 2
+211 -> 1
+212 -> 1
+213 -> 1
+214 -> 1
+220 -> 3
+221 -> 1
+222 -> 1
+223 -> 1
+224 -> 1
+230 -> 3
+231 -> 1
+232 -> 1
+233 -> 0
+234 -> 1
+240 -> 1
+241 -> 1
+242 -> 1
+243 -> 1
+244 -> 1
+300 -> 3
+301 -> 4
+302 -> 3
+303 -> 3
+304 -> 4
+310 -> 2
+311 -> 1
+312 -> 1
+313 -> 1
+314 -> 1
+320 -> 3
+321 -> 1
+322 -> 1
+323 -> 1
+324 -> 1
+330 -> 3
+331 -> 1
+332 -> 1
+333 -> 3
+334 -> 4
+340 -> 1
+341 -> 1
+342 -> 1
+343 -> 1
+344 -> 1
+400 -> 0
+401 -> 0
+402 -> 0
+403 -> 0
+404 -> 0
+410 -> 2
+411 -> 1
+412 -> 1
+413 -> 1
+414 -> 1
+420 -> 0
+421 -> 1
+422 -> 1
+423 -> 1
+424 -> 1
+430 -> 0
+431 -> 1
+432 -> 3
+433 -> 0
+434 -> 1
+440 -> 1
+441 -> 1
+442 -> 1
+443 -> 1
+444 -> 1
+
+[colin@pitrat4 AutomateCellulaire]$ grep "[0-9] -> [0-9]" bouchons.txt | sed 's/.* -> //' | xargs | sed 's/ //g' | rev
+11111133101111011112000001111141113111131111243343111111111311113111124334311110111101111011112000001111011110111101111200000
+[colin@pitrat4 AutomateCellulaire]$ bc
+bc 1.06
+Copyright 1991-1994, 1997, 1998, 2000 Free Software Foundation, Inc.
+This is free software with ABSOLUTELY NO WARRANTY.
+For details type `warranty'. 
+ibase=5
+11111103101111011112000001111143113111131111243343111111011311113111124334311110101101111011112000001111010110111101111200000
+587728878999653368369611360649171452298184335468742411882478788175620213051765432131250
+
+

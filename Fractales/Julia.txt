@@ -1,0 +1,3 @@
+Julia2.png: disparait quand Iter augmente (ex: 3200 iterations)
+Julia3.png: disparait quand Iter augmente (ex: 1600 iterations)
+Essayer une implémentation en créant 3 ensembles: diverge, contient 0 et autre. Si un nombre transformé atteint une valeure déjà connue, considère qu'il fait partie de l'ensemble correspondant. (Sorte de mémoisation sur la convergence)

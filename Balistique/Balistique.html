@@ -1,0 +1,446 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+ <HEAD>
+  <TITLE>Balistique</TITLE>
+  <META NAME="generator" CONTENT="wxMaxima">
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+  <STYLE TYPE="text/css">
+body {
+  background-color: rgb(255,255,255);
+}
+.input {
+  color: rgb(0,0,255);
+}
+.comment {
+  color: rgb(0,0,0);
+  background-color: rgb(255,255,255);
+  padding: 2mm;
+}
+.image {
+  color: rgb(0,0,0);
+  padding: 2mm;
+}
+.section {
+  color: rgb(0,0,0);
+  font-size: 1.5em;
+  padding: 2mm;
+}
+.subsect {
+  color: rgb(0,0,0);
+  font-size: 1.2em;
+  padding: 2mm;
+}
+.title {
+  color: rgb(0,0,0);
+  font-size: 2em;
+  padding: 2mm;
+}
+.prompt {
+  color: rgb(255,0,0);
+}
+table {
+  border: 0px;
+}
+td {
+  vertical-align: top;
+  padding: 1mm;
+}
+  </STYLE>
+ </HEAD>
+ <BODY>
+
+<!---------------------------------------------------------->
+<!--          Created with wxMaxima version 13.04.2         -->
+<!---------------------------------------------------------->
+
+
+<!-- Title cell -->
+
+
+<P CLASS="title">
+Etude de la trajectoire d'un projectile
+</P>
+
+
+<!-- Section cell -->
+
+
+<P CLASS="section">
+ 1 Etude générique de la trajectoire
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+Étudions la trajectoire d'un projectile de vitesse initiale v = 100 m/s et soumis à l'accélération de la pesanteur g = 9.81 m/s².<BR>
+L'absisse et l'ordonnée du projectile lancé depuis l'origine (0, 0) dans une direction faisant un angle a avec l'horizontale sont:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i1) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+Y(t) := -g/2*t^2+v*sin(a)*t;<BR>
+X(t) := v*cos(a)*t;
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_0.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+L'ordonnée en un point x est donc:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i3) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+y(x, a) := Y(x/(v*cos(a)))$<BR>
+y = y(x, a);
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_1.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+Numériquement et graphiquement, pour un angle de 0.5 radians (environ 28.6°):
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i5) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+f(g, v, a) := y(x, a)$<BR>
+ynum(x, a) := f(9.81, 100, a)$<BR>
+y = ynum(x, 0.5);<BR>
+wxplot2d([ynum(x, 0.5)], [x, 0, 900], [y, 0, 150])$
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_2.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+L'ensemble des trajectoires pour un intervalle de valeur de l'angle a peut être dessiné sous forme d'une courbe en 3D:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i9) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+plot3d(ynum, [x, 0, 1000], [a, 0, 1], [elevation, 90], [azimuth, 0])$<BR>
+wxplot3d(ynum, [x, 0, 1000], [a, 0, 1], [elevation, 90], [azimuth, 0])$
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_3a.png">
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_3.png">
+</P>
+
+
+<!-- Section cell -->
+
+
+<P CLASS="section">
+ 2 Recherche de la portée maximale
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+Un point au sol (y = 0) peut être atteint pour un x donné en choisissant a tel que:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i11) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+solve(y(x, a), x);
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_4.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+La solution générale x = 0 correspond au point de départ. <BR>
+La solution qui nous intéresse pour la recherche de la portée maximale est donc:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i12) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+solve(y(x, a), x)$<BR>
+define(x_max(a), trigreduce(rhs(%[1])));
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_5.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+Qui est maximale pour (condition nécessaire mais non suffisante):
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i14) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+solve(diff(x_max(a), a, 1), a);
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_6.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+On vérifie effectivement que pi/4 est solution. D'ailleurs la dérivée seconde en ce point est négative:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i15) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+d2x_max(a) := diff(x_max(a), a, 2)$<BR>
+'at('diff(x_max(a), a, 2), [a = pi/4]) = at(d2x_max(a), [a = %pi/4]), numer;
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_7.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+On vérifie graphiquement que pour des angles légèrement inférieurs ou supérieurs à pi/4, le projectile termine sa course moins loins que pour un angle égal à pi/4:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i17) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+yd1(x) := f(9.81, 100, %pi/4 - 0.05)$<BR>
+yd2(x) := f(9.81, 100, %pi/4)$<BR>
+yd3(x) := f(9.81, 100, %pi/4 + 0.05)$<BR>
+wxplot2d([yd1(x), yd2(x), yd3(x)], [x, 0, 1100], [y, 0, 400], [legend, pi/4-0.05, pi/4, pi/4+0.05])$<BR>
+wxplot2d([yd1(x), yd2(x), yd3(x)], [x, 980, 1020], [y, 0, 40], [legend, pi/4-0.05, pi/4, pi/4+0.05])$
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_8.png">
+</P>
+
+
+<!-- Section cell -->
+
+
+<P CLASS="section">
+ 3 Recherche du lieu des hauts de trajectoire
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+Le projectile atteint le haut de sa trajectoire lorsque y est à son maximum, ce qui peut se produire uniquement si dy/dx = 0 (condition nécessaire mais non suffisante).<BR>
+On en déduit l'absisse du haut de la trajectoire en fonction de l'angle a.
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i22) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+'diff('y(x,a), x, 1) = diff(y(x,a), x, 1);<BR>
+solve([diff(y(x,a), x, 1)], [x])$<BR>
+define(x_haut(a), rhs(%[1]))$<BR>
+x = x_haut(a);<BR>
+y = y(x_haut(a), a);
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_9.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+On peut tracer le lieu des hauts de trajectoire:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i27) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+xh(g, v) := x_haut(a)$<BR>
+yh(g, v) := y(x_haut(a), a)$<BR>
+wxplot2d([['parametric, xh(9.81, 100), yh(9.81, 100), [a, 0.01, 3.2], [nticks, 300]]], [x,-1000,1000], [y,0,800])$
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_10.png">
+</P>
+
+
+<!-- Section cell -->
+
+
+<P CLASS="section">
+ 4 Recherche de la zone de sécurité
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+La zone de sécurité est la zone constituée des points que le projectile ne peut pas atteindre quelque soit l'angle a.<BR>
+Elle est délimitée par la courbe des ordonnées maximales pouvant être atteintes pour chaque valeur d'absisse.<BR>
+Pour une valeur de x donnée, l'ordonnée maximale est atteinte pour a tel que dy/da = 0:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i30) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+dy_da(x) := diff(y(x,a),a,1)$<BR>
+'diff('y(x,a), a, 1) = dy_da(x);<BR>
+solve(dy_da(x), x);<BR>
+define(xs(a), trigsimp(rhs(%[1])));<BR>
+ys(a) := y(xs(a), a)$<BR>
+'ys(a) = ys(a);<BR>
+xs_num(g, v) := xs(a)$<BR>
+ys_num(g, v) := ys(a)$<BR>
+wxplot2d([['parametric, xs_num(9.81, 100), ys_num(9.81, 100), [a, 0.01, 3.2], [nticks, 300]]], [x,-1200,1200], [y,0,600])$
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_11.png">
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">
+L'équation cartésienne de la courbe peut être obtenue facilement:
+</P>
+
+
+<!-- Code cell -->
+
+
+<P><TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i39) 
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+solve(x=trigreduce(xs(a)), a);<BR>
+y = ratexpand(ys(rhs(%[1])));
+  </SPAN></TD>
+</TR></TABLE>
+  <BR>
+  <IMG ALT="Result" SRC="Balistique_img/Balistique_12.png">
+</P>
+
+ <HR>
+ <SMALL> Created with <A HREF="http://wxmaxima.sourceforge.net/">wxMaxima</A>.</SMALL>
+
+ </BODY>
+</HTML>
