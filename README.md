@@ -24,6 +24,13 @@ http://colin.pitrat.free.fr/?p=105
 Simulation d'un gaz parfait.
 Inachevé.
 
+## Lychrel
+A few methods around Lychrel numbers.
+https://en.wikipedia.org/wiki/Lychrel_number
+Quelques fonctions autour de la recherche de nombres de Lychrels.
+https://fr.wikipedia.org/wiki/Nombre_de_Lychrel
+Inachevé.
+
 ## MarcheIvrogne
 http://colin.pitrat.free.fr/?p=40
 
