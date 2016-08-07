@@ -17,8 +17,9 @@ class TestReverseNumber(unittest.TestCase):
    def test_reverse_100_is_1(self):
       self.assertEqual(1, lychrel.reverse(100, 10))
 
-   def test_reverse_negative_returns_0(self):
-      self.assertEqual(0, lychrel.reverse(-100, 10))
+   def test_reverse_throw_ValueError_if_given_negative(self):
+      with self.assertRaises(ValueError):
+         lychrel.reverse(-100, 10)
 
    def test_reverse_throw_TypeError_if_given_float(self):
       with self.assertRaises(TypeError):

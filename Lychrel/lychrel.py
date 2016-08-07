@@ -7,6 +7,8 @@ def intInBase(num, b, numerals="0123456789abcdefghijklmnopqrstuvwxyz"):
 def reverse(num, base):
    if not isinstance(num, int) and not isinstance(num, long):
       raise TypeError
+   if num < 0:
+      raise ValueError
    result = 0
    while num > 0:
       result *= base
