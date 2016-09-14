@@ -1,10 +1,13 @@
 # PythonMisc
 Divers petits projets en python
+
 Various small code projects in python
 
 ## AdditionsMystere
 Solve cryptarithms, also know as verbal arithmetic or word additions (ex: SEND + MORE = MONEY).
+
 Résolution de cryptarithmes, aussi connus sous le nom d'additions mystère (exemple: SEND + MORE = MONEY).
+
 Plus d'information: http://colin.pitrat.free.fr/?p=171
 
 ## AutomateCellulaire
@@ -22,6 +25,18 @@ http://colin.pitrat.free.fr/?p=105
 
 ## Gaz
 Simulation d'un gaz parfait.
+
+Inachevé.
+
+## Lychrel
+A few methods around Lychrel numbers.
+
+https://en.wikipedia.org/wiki/Lychrel_number
+
+Quelques fonctions autour de la recherche de nombres de Lychrels.
+
+https://fr.wikipedia.org/wiki/Nombre_de_Lychrel
+
 Inachevé.
 
 ## MarcheIvrogne
