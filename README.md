@@ -13,6 +13,11 @@ Plus d'information: http://colin.pitrat.free.fr/?p=171
 ## AutomateCellulaire
 http://colin.pitrat.free.fr/?p=65
 
+## AutoReference
+A program that print its own source code.
+
+Un programme qui affiche son code source.
+
 ## Balistique
 http://colin.pitrat.free.fr/?p=204
 
@@ -47,3 +52,6 @@ Programmes et ressources réalisées dans le cadre d'un atelier pour enseigner l
 
 ## Puissance4
 Un jeu de puissance 4.
+
+## Crypto
+From http://cryptopals.com
