@@ -28,10 +28,10 @@ def isAdmin(content, iv):
     return isAdminDecrypted(decrypted)
 
 def patchChar(content, index, newvalue):
-    return content[0:index] + newvalue + result[index+1:]
+    return content[0:index] + newvalue + content[index+1:]
 
 def xorChar(content, index, operand):
-    return content[0:index] + chr(ord(result[index]) ^ operand) + result[index+1:]
+    return content[0:index] + chr(ord(content[index]) ^ operand) + content[index+1:]
 
 data = "_admin_true"
 iv, result = encryptURL(data)
