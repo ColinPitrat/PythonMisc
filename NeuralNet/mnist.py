@@ -57,7 +57,7 @@ except ImportError:
 else:
     def image_to_png(image, filename):
         size = (len(image), len(image[0]))
-        data = "".join(["".join([chr(p) for p in line]) for line in image])
+        data = "".join([chr(p) for line in image for p in line])
         img = Image.frombytes('L', size, data)
         #img = Image.frombytes('L', (10, 10), "".join([chr(2*i) for i in range(0, 100)]))
         #img = Image.frombytes('L', (28, 28), "".join([chr(i%256) for i in image[j]]))
