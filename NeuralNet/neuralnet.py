@@ -7,6 +7,7 @@ class Neuron(object):
         self.weights = [random.uniform(-1, 1) for i in range(0, nb_inputs)]
         self.bias = random.uniform(-1, 1)
 
+    # TODO: Add activation function (ReLu)
     def output(self, previous_layer_values):
         result = self.bias
         for i in range(0, self.nb_inputs):
