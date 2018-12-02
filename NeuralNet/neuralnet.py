@@ -43,23 +43,44 @@ class Sigmoid(object):
     def name(self):
         return "Sigmoid"
 
+class TanH(object):
+
+    def value(self, x):
+        return math.tanh(x)
+
+    def derivative(self, x):
+        th = math.tanh(x)
+        return 1-th*th
+
+    def name(self):
+        return "TanH"
+
+
+# TODO: Find a cleaner way to initialize the registry: metaclass or __init_subclass__
+activations = {}
+activations["Sigmoid"] = Sigmoid()
+activations["LeakyReLu"] = LeakyReLu()
+activations["ReLu"] = ReLu()
+activations["TanH"] = TanH()
+
 
 class Neuron(object):
 
     def __init__(self, nb_inputs, activation):
         self.nb_inputs = nb_inputs
-        self.weights = [random.uniform(0, 1) for i in range(0, nb_inputs)]
-        self.bias = random.uniform(0, 1)
+        self.weights = [random.uniform(-1, 1) for i in range(0, nb_inputs)]
+        self.bias = random.uniform(-1, 1)
         self.activation = activation
         self.prepare_backprop()
 
-    def output(self, previous_layer_values):
+    def output(self, previous_layer_values, for_training):
         result = self.bias
         for i in range(0, self.nb_inputs):
             result += self.weights[i]*previous_layer_values[i]
-        # Save some info for per-eval backpropagation 
-        self.last_value = result
-        self.inp = previous_layer_values
+        if for_training:
+            # Save some info for per-eval backpropagation
+            self.last_value = result
+            self.inp = previous_layer_values
         return self.activation.value(result)
 
     def prepare_backprop(self):
@@ -97,10 +118,10 @@ class NeuralNet(object):
             self.layers.append([Neuron(previous_size, activation) for i in range(0, size)])
             previous_size = size
 
-    def evaluate(self, inputs):
+    def evaluate(self, inputs, for_training=False):
         result = inputs
         for layer in self.layers:
-            result = [neuron.output(result) for neuron in layer]
+            result = [neuron.output(result, for_training) for neuron in layer]
         return result
 
     def per_eval_backprop(self, errors, learning_rate=1):
@@ -132,7 +153,7 @@ class NeuralNet(object):
                 # TODO: Understand ! Simply taking a random example seems to make the training much less efficient !
                 k = random.randint(0, nb_examples-1)
                 #k = i%nb_examples
-                result = self.evaluate(examples[k])
+                result = self.evaluate(examples[k], for_training=True)
                 expected = [0]*nb_classes
                 expected[labels[k]] = 1
                 #print("Result: %s" % result)
@@ -144,21 +165,16 @@ class NeuralNet(object):
             #print("Round %d: error=%s, learning_rate=%s" % (i, error/samples_per_round, learning_rate))
             self.per_round_backprop()
 
-    def predict(self, example):
-        scores = self.evaluate(example)
+    def predict(self, example, for_training=False):
+        scores = self.evaluate(example, for_training)
         return scores.index(max(scores))
 
     def load(self, filename):
         with open(filename, "r") as f:
             act = f.readline().strip()
-            if act == "Sigmoid":
-                self.activation = Sigmoid()
-            elif act == "ReLu":
-                self.activation = ReLu()
-            elif act == "LeakyReLu":
-                self.activation = LeakyReLu()
-            else:
+            if act not in activations:
                 raise RuntimeError("Unknown activation function '%s' in '%s'" % (act, filename))
+            self.activation = activations[act]
             layer_sizes = [int(x) for x in f.readline().split(',')]
             self.layers = []
             for l in layer_sizes:

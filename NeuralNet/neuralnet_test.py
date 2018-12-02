@@ -54,7 +54,7 @@ class TestNeuralNet(unittest.TestCase):
         n.bias = -0.5
         n.weights = [0.7]
 
-        self.assertAlmostEqual(0.2, n.output([1.0]), 4)
+        self.assertAlmostEqual(0.2, n.output([1.0], for_training=False), 4)
 
     def testMultipleInputsNeuronActivation(self):
         n = neuralnet.Neuron(3, neuralnet.ReLu())
@@ -62,7 +62,7 @@ class TestNeuralNet(unittest.TestCase):
         n.weights = [0.7, 0.5, 0.3]
 
         # 0.7*0.7 + 0.5*0.5 + 0.3*0.3 - 0.5 = 0.49 + 0.25 + 0.09 - 0.5 = 0.83 - 0.5 = 0.33
-        self.assertAlmostEqual(0.33, n.output([0.7, 0.5, 0.3]), 4)
+        self.assertAlmostEqual(0.33, n.output([0.7, 0.5, 0.3], for_training=False), 4)
 
     def testMultipleLayersNetworkActivation(self):
         nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu())
@@ -85,9 +85,9 @@ class TestNeuralNet(unittest.TestCase):
         nn.layers[1][1].weights=[0.8, 0.9]
         nn.layers[1][1].bias=-0.3
 
-        neuronA_output = nn.layers[0][0].output([1, 0])
+        neuronA_output = nn.layers[0][0].output([1, 0], for_training=False)
         self.assertAlmostEqual(0.4, neuronA_output)
-        neuronB_output = nn.layers[0][1].output([1, 0])
+        neuronB_output = nn.layers[0][1].output([1, 0], for_training=False)
         self.assertAlmostEqual(0.6, neuronB_output)
 
         output = nn.evaluate([1, 0])
@@ -100,7 +100,7 @@ class TestNeuralNet(unittest.TestCase):
         n.bias = -0.5
         n.weights = [0.7]
 
-        self.assertAlmostEqual(0.2, n.output([1.0]), 4)
+        self.assertAlmostEqual(0.2, n.output([1.0], for_training=True), 4)
 
         # Assume expected error was 1 -> provide error of 0.8
         da = n.per_eval_backprop(0.8)
@@ -133,7 +133,7 @@ class TestNeuralNet(unittest.TestCase):
         nn.layers[1][1].bias=-0.3
 
         # Start with same evaluation as testMultipleLayersNetworkActivation
-        output = nn.evaluate([1, 0])
+        output = nn.evaluate([1, 0], for_training=True)
         self.assertAlmostEqual(0.38, output[0])
         self.assertAlmostEqual(0.56, output[1])
         expected = [0, 1]
