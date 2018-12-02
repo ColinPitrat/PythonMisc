@@ -1,0 +1,5 @@
+tests/network3.txt
+20,10
+Sigmoid
+40,100,100
+0.2

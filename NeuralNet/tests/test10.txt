@@ -1,0 +1,5 @@
+tests/network10.txt
+15,10
+Sigmoid
+40,10000,1
+0.2

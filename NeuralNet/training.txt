@@ -1,0 +1,252 @@
+# network1.txt
+# ERROR: was training when evaluating !
+# Baseline
+# 784,20,10 - Sigmoid - random weight & bias [-1,1]
+# Training per round: 10000
+# Samples per training: 1
+# Learning rate: 0.2 - fix
+Round 0, Score before: 0.0985, Learning rate: 0.2
+Round 1, Score before: 0.8175, Learning rate: 0.2
+Round 2, Score before: 0.8627, Learning rate: 0.2
+Round 3, Score before: 0.8847, Learning rate: 0.2
+Round 4, Score before: 0.894, Learning rate: 0.2
+Round 5, Score before: 0.9007, Learning rate: 0.2
+Round 6, Score before: 0.9034, Learning rate: 0.2
+Round 7, Score before: 0.9033, Learning rate: 0.2
+Round 8, Score before: 0.907, Learning rate: 0.2
+Round 9, Score before: 0.9115, Learning rate: 0.2
+Round 10, Score before: 0.9159, Learning rate: 0.2
+Round 11, Score before: 0.9199, Learning rate: 0.2
+Round 12, Score before: 0.9228, Learning rate: 0.2
+Round 13, Score before: 0.9229, Learning rate: 0.2
+Round 14, Score before: 0.9221, Learning rate: 0.2
+Round 15, Score before: 0.9204, Learning rate: 0.2
+Round 16, Score before: 0.9266, Learning rate: 0.2
+Round 17, Score before: 0.9286, Learning rate: 0.2
+Round 18, Score before: 0.9267, Learning rate: 0.2
+Round 19, Score before: 0.9268, Learning rate: 0.2
+Round 20, Score before: 0.9315, Learning rate: 0.2
+Round 21, Score before: 0.9287, Learning rate: 0.2
+Round 22, Score before: 0.9261, Learning rate: 0.2
+Round 23, Score before: 0.9327, Learning rate: 0.2
+Round 24, Score before: 0.9317, Learning rate: 0.2
+Round 25, Score before: 0.93, Learning rate: 0.2
+Round 26, Score before: 0.9362, Learning rate: 0.2
+Round 27, Score before: 0.93, Learning rate: 0.2
+Round 28, Score before: 0.9337, Learning rate: 0.2
+Round 29, Score before: 0.9327, Learning rate: 0.2
+Round 30, Score before: 0.9334, Learning rate: 0.2
+Round 31, Score before: 0.9347, Learning rate: 0.2
+
+# network2.txt
+# ERROR: was training when evaluating !
+# 784,20,10 - Sigmoid - random weight & bias [-1,1]
+# Training per round: 1000
+# Samples per training: 10
+# Learning rate: 0.2 - fix
+Round 0, Score before: 0.1157, Learning rate: 0.2
+Round 1, Score before: 0.5264, Learning rate: 0.2
+Round 2, Score before: 0.6585, Learning rate: 0.2
+Round 3, Score before: 0.7171, Learning rate: 0.2
+Round 4, Score before: 0.7505, Learning rate: 0.2
+Round 5, Score before: 0.7711, Learning rate: 0.2
+Round 6, Score before: 0.7936, Learning rate: 0.2
+Round 7, Score before: 0.8088, Learning rate: 0.2
+Round 8, Score before: 0.8179, Learning rate: 0.2
+Round 9, Score before: 0.8238, Learning rate: 0.2
+Round 10, Score before: 0.8346, Learning rate: 0.2
+Round 11, Score before: 0.8462, Learning rate: 0.2
+Round 12, Score before: 0.8489, Learning rate: 0.2
+Round 13, Score before: 0.8559, Learning rate: 0.2
+Round 14, Score before: 0.8609, Learning rate: 0.2
+Round 15, Score before: 0.8627, Learning rate: 0.2
+Round 16, Score before: 0.8685, Learning rate: 0.2
+Round 17, Score before: 0.8724, Learning rate: 0.2
+Round 18, Score before: 0.8751, Learning rate: 0.2
+Round 19, Score before: 0.8776, Learning rate: 0.2
+
+# Not saved
+# ERROR: was training when evaluating !
+# 784,20,10 - random weight & bias [0,1]
+# Training per round: 10000
+# Samples per training: 1
+# Learning rate: 0.2 - fix
+Round 0, Score before: 0.1028, Learning rate: 0.2
+Round 1, Score before: 0.1028, Learning rate: 0.2
+Round 2, Score before: 0.1028, Learning rate: 0.2
+Round 3, Score before: 0.1135, Learning rate: 0.2
+Round 4, Score before: 0.0982, Learning rate: 0.2
+Round 5, Score before: 0.0958, Learning rate: 0.2
+Round 6, Score before: 0.1032, Learning rate: 0.2
+Round 7, Score before: 0.1028, Learning rate: 0.2
+Round 8, Score before: 0.1032, Learning rate: 0.2
+Round 9, Score before: 0.0892, Learning rate: 0.2
+Round 10, Score before: 0.101, Learning rate: 0.2
+
+# network3.txt
+# ERROR: was training when evaluating !
+# 784,20,20,10 - random weight & bias [-1,1]
+# Training per round: 10000
+# Samples per training: 1
+# Learning rate: 0.2 - fix
+Round 0, Score before: 0.142, Learning rate: 0.2
+Round 1, Score before: 0.6222, Learning rate: 0.2
+Round 2, Score before: 0.7055, Learning rate: 0.2
+Round 3, Score before: 0.7529, Learning rate: 0.2
+Round 4, Score before: 0.7872, Learning rate: 0.2
+Round 5, Score before: 0.7989, Learning rate: 0.2
+Round 6, Score before: 0.8226, Learning rate: 0.2
+Round 7, Score before: 0.8317, Learning rate: 0.2
+Round 8, Score before: 0.841, Learning rate: 0.2
+Round 9, Score before: 0.8458, Learning rate: 0.2
+Round 10, Score before: 0.8528, Learning rate: 0.2
+Round 11, Score before: 0.86, Learning rate: 0.2
+Round 12, Score before: 0.8632, Learning rate: 0.2
+Round 13, Score before: 0.8693, Learning rate: 0.2
+Round 14, Score before: 0.8716, Learning rate: 0.2
+Round 15, Score before: 0.875, Learning rate: 0.2
+Round 16, Score before: 0.8786, Learning rate: 0.2
+Round 17, Score before: 0.8838, Learning rate: 0.2
+Round 18, Score before: 0.8819, Learning rate: 0.2
+Round 19, Score before: 0.8887, Learning rate: 0.2
+Round 20, Score before: 0.8926, Learning rate: 0.2
+Round 21, Score before: 0.8889, Learning rate: 0.2
+Round 22, Score before: 0.8976, Learning rate: 0.2
+Round 23, Score before: 0.897, Learning rate: 0.2
+Round 24, Score before: 0.8988, Learning rate: 0.2
+Round 25, Score before: 0.8999, Learning rate: 0.2
+Round 26, Score before: 0.8985, Learning rate: 0.2
+Round 27, Score before: 0.9031, Learning rate: 0.2
+Round 28, Score before: 0.9037, Learning rate: 0.2
+Round 29, Score before: 0.9059, Learning rate: 0.2
+Round 30, Score before: 0.9026, Learning rate: 0.2
+Round 31, Score before: 0.905, Learning rate: 0.2
+Round 32, Score before: 0.9041, Learning rate: 0.2
+Round 33, Score before: 0.9075, Learning rate: 0.2
+Round 34, Score before: 0.9058, Learning rate: 0.2
+Round 35, Score before: 0.911, Learning rate: 0.2
+Round 36, Score before: 0.9084, Learning rate: 0.2
+Round 37, Score before: 0.9079, Learning rate: 0.2
+Round 38, Score before: 0.9103, Learning rate: 0.2
+Round 39, Score before: 0.9139, Learning rate: 0.2
+Round 40, Score before: 0.9126, Learning rate: 0.2
+Round 41, Score before: 0.9131, Learning rate: 0.2
+Round 42, Score before: 0.9098, Learning rate: 0.2
+Round 43, Score before: 0.914, Learning rate: 0.2
+Round 44, Score before: 0.9153, Learning rate: 0.2
+
+# network4.txt
+# ERROR: was training when evaluating !
+# 784,10,10 - random weight & bias [-1,1]
+# Training per round: 10000
+# Samples per training: 1
+# Learning rate: 0.2 - fix
+Round 0, Score before: 0.0941, Learning rate: 0.2
+Round 1, Score before: 0.7822, Learning rate: 0.2
+Round 2, Score before: 0.8498, Learning rate: 0.2
+Round 3, Score before: 0.8682, Learning rate: 0.2
+Round 4, Score before: 0.8819, Learning rate: 0.2
+Round 5, Score before: 0.8872, Learning rate: 0.2
+Round 6, Score before: 0.8907, Learning rate: 0.2
+Round 7, Score before: 0.896, Learning rate: 0.2
+Round 8, Score before: 0.8968, Learning rate: 0.2
+Round 9, Score before: 0.8942, Learning rate: 0.2
+Round 10, Score before: 0.8987, Learning rate: 0.2
+Round 11, Score before: 0.8993, Learning rate: 0.2
+Round 12, Score before: 0.8996, Learning rate: 0.2
+Round 13, Score before: 0.9013, Learning rate: 0.2
+Round 14, Score before: 0.9078, Learning rate: 0.2
+Round 15, Score before: 0.9055, Learning rate: 0.2
+Round 16, Score before: 0.905, Learning rate: 0.2
+Round 17, Score before: 0.9051, Learning rate: 0.2
+Round 18, Score before: 0.9015, Learning rate: 0.2
+Round 19, Score before: 0.9081, Learning rate: 0.2
+Round 20, Score before: 0.9065, Learning rate: 0.2
+Round 21, Score before: 0.9082, Learning rate: 0.2
+Round 22, Score before: 0.9094, Learning rate: 0.2
+Round 23, Score before: 0.9114, Learning rate: 0.2
+Round 24, Score before: 0.9119, Learning rate: 0.2
+Round 25, Score before: 0.909, Learning rate: 0.2
+
+# network5.txt
+# ERROR: was training when evaluating !
+# 784,30,10 - random weight & bias [-1,1]
+# Training per round: 10000
+# Samples per training: 1
+# Learning rate: 0.2 - fix
+Round 0, Score before: 0.1367, Learning rate: 0.2
+Round 1, Score before: 0.8328, Learning rate: 0.2
+Round 2, Score before: 0.8746, Learning rate: 0.2
+Round 3, Score before: 0.889, Learning rate: 0.2
+Round 4, Score before: 0.8998, Learning rate: 0.2
+Round 5, Score before: 0.9045, Learning rate: 0.2
+Round 6, Score before: 0.9083, Learning rate: 0.2
+Round 7, Score before: 0.9148, Learning rate: 0.2
+Round 8, Score before: 0.9148, Learning rate: 0.2
+Round 9, Score before: 0.9149, Learning rate: 0.2
+Round 10, Score before: 0.9231, Learning rate: 0.2
+Round 11, Score before: 0.9273, Learning rate: 0.2
+Round 12, Score before: 0.9205, Learning rate: 0.2
+Round 13, Score before: 0.9283, Learning rate: 0.2
+Round 14, Score before: 0.9322, Learning rate: 0.2
+Round 15, Score before: 0.9301, Learning rate: 0.2
+Round 16, Score before: 0.9315, Learning rate: 0.2
+Round 17, Score before: 0.9347, Learning rate: 0.2
+Round 18, Score before: 0.9352, Learning rate: 0.2
+Round 19, Score before: 0.9382, Learning rate: 0.2
+Round 20, Score before: 0.9372, Learning rate: 0.2
+Round 21, Score before: 0.9351, Learning rate: 0.2
+Round 22, Score before: 0.9353, Learning rate: 0.2
+Round 23, Score before: 0.9374, Learning rate: 0.2
+Round 24, Score before: 0.938, Learning rate: 0.2
+Round 25, Score before: 0.9395, Learning rate: 0.2
+Round 26, Score before: 0.9386, Learning rate: 0.2
+Round 27, Score before: 0.9402, Learning rate: 0.2
+Round 28, Score before: 0.9428, Learning rate: 0.2
+Round 29, Score before: 0.9408, Learning rate: 0.2
+Round 30, Score before: 0.9441, Learning rate: 0.2
+Round 31, Score before: 0.94, Learning rate: 0.2
+Round 32, Score before: 0.9413, Learning rate: 0.2
+Round 33, Score before: 0.9444, Learning rate: 0.2
+Round 34, Score before: 0.9433, Learning rate: 0.2
+Round 35, Score before: 0.9416, Learning rate: 0.2
+Round 36, Score before: 0.9424, Learning rate: 0.2
+Round 37, Score before: 0.9433, Learning rate: 0.2
+Round 38, Score before: 0.9431, Learning rate: 0.2
+Round 39, Score before: 0.9447, Learning rate: 0.2
+
+##################################################################################################################################
+# Restart tests with fix to not train when evaluating
+##################################################################################################################################
+
+# network1.txt
+# Baseline
+# 784,20,10 - Sigmoid - random weight & bias [-1,1]
+# Training per round: 10000
+# Samples per training: 1
+# Learning rate: 0.2 - fix
+TODO
+
+# network5.txt
+# 784,30,10 - Sigmoid - random weight & bias [-1,1]
+# Training per round: 10000
+# Samples per training: 1
+# Learning rate: 0.2 - fix
+
+# Plan:
+# + random weight & bias [0,1]
+# - Training per round = 1000, Samples per training = 10
+# - Training per round = 100, Samples per training = 100
+# - Training per round = 10, Samples per training = 1000
+# - Training per round = 1, Samples per training = 10000
+# - [784,20,20,10]
+# - [784,10,10]
+# - [784,30,10]
+# - [784,40,10]
+# - [784,15,10]
+# - [784,25,10]
+# - Continue to find the best hidden layer size
+# - Tanh
+# - ReLu
+# - LeakyRelu
+# - Variable learning rate 1*0.9^n
