@@ -5,9 +5,9 @@ do
   echo " ====== Running test $i ====="
   if [ -f tests/result${i}.txt ]
   then
-    echo "Skipping - already ran"
+    echo " * Skipping - already ran * "
   else
-    unbuffer python main.py tests/test${i}.txt | tee tests/result${i}.txt
+    unbuffer python main.py train tests/test${i}.txt | tee tests/result${i}.txt
   fi
 done
 
