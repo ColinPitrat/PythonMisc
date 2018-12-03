@@ -1,0 +1,44 @@
+Reading 60000 labels
+Reading 60000 images
+Reading 10000 labels
+Reading 10000 images
+Epoch 0, Score before: 0.1385, Learning rate: 0.2
+Epoch 1, Score before: 0.4824, Learning rate: 0.2
+Epoch 2, Score before: 0.5864, Learning rate: 0.2
+Epoch 3, Score before: 0.6729, Learning rate: 0.2
+Epoch 4, Score before: 0.7183, Learning rate: 0.2
+Epoch 5, Score before: 0.7593, Learning rate: 0.2
+Epoch 6, Score before: 0.788, Learning rate: 0.2
+Epoch 7, Score before: 0.802, Learning rate: 0.2
+Epoch 8, Score before: 0.8181, Learning rate: 0.2
+Epoch 9, Score before: 0.8262, Learning rate: 0.2
+Epoch 10, Score before: 0.8346, Learning rate: 0.2
+Epoch 11, Score before: 0.8371, Learning rate: 0.2
+Epoch 12, Score before: 0.8473, Learning rate: 0.2
+Epoch 13, Score before: 0.8531, Learning rate: 0.2
+Epoch 14, Score before: 0.8579, Learning rate: 0.2
+Epoch 15, Score before: 0.8618, Learning rate: 0.2
+Epoch 16, Score before: 0.8659, Learning rate: 0.2
+Epoch 17, Score before: 0.8697, Learning rate: 0.2
+Epoch 18, Score before: 0.8737, Learning rate: 0.2
+Epoch 19, Score before: 0.8759, Learning rate: 0.2
+Epoch 20, Score before: 0.8796, Learning rate: 0.2
+Epoch 21, Score before: 0.8827, Learning rate: 0.2
+Epoch 22, Score before: 0.8819, Learning rate: 0.2
+Epoch 23, Score before: 0.8829, Learning rate: 0.2
+Epoch 24, Score before: 0.8879, Learning rate: 0.2
+Epoch 25, Score before: 0.8896, Learning rate: 0.2
+Epoch 26, Score before: 0.8907, Learning rate: 0.2
+Epoch 27, Score before: 0.8914, Learning rate: 0.2
+Epoch 28, Score before: 0.892, Learning rate: 0.2
+Epoch 29, Score before: 0.8954, Learning rate: 0.2
+Epoch 30, Score before: 0.8942, Learning rate: 0.2
+Epoch 31, Score before: 0.8942, Learning rate: 0.2
+Epoch 32, Score before: 0.8956, Learning rate: 0.2
+Epoch 33, Score before: 0.8974, Learning rate: 0.2
+Epoch 34, Score before: 0.897, Learning rate: 0.2
+Epoch 35, Score before: 0.8977, Learning rate: 0.2
+Epoch 36, Score before: 0.8963, Learning rate: 0.2
+Epoch 37, Score before: 0.8987, Learning rate: 0.2
+Epoch 38, Score before: 0.8996, Learning rate: 0.2
+Epoch 39, Score before: 0.9013, Learning rate: 0.2

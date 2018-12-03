@@ -88,7 +88,7 @@ def test_network(filename):
     print("Score: %s" % score)
 
 def train_network(filename):
-    params = load_params(sys.argv[1])
+    params = load_params(filename)
     limit = params['limit']
 
     train_labels, train_images, train_examples = load_data(TRAIN_LABELS, TRAIN_IMAGES, limit)
