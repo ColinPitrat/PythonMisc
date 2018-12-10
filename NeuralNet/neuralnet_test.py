@@ -12,15 +12,23 @@ class TestNeuralNet(unittest.TestCase):
         self.assertAlmostEqual(0.5, sigmoid.value(0))
         self.assertAlmostEqual(0.26894, sigmoid.value(-1), 4)
         self.assertAlmostEqual(0.73106, sigmoid.value(1), 4)
+        self.assertAlmostEqual(0, sigmoid.value(-710))
+        self.assertAlmostEqual(1, sigmoid.value(710))
+        self.assertAlmostEqual(0, sigmoid.value(-1234567890))
+        self.assertAlmostEqual(1, sigmoid.value(1234567890))
 
     def testSigmoidDerivative(self):
         sigmoid = neuralnet.Sigmoid()
         self.assertAlmostEqual(0.19661, sigmoid.derivative(-1), 4)
         self.assertAlmostEqual(0.25, sigmoid.derivative(0))
         self.assertAlmostEqual(0.19661, sigmoid.derivative(1), 4)
+        self.assertAlmostEqual(0, sigmoid.derivative(-710))
+        self.assertAlmostEqual(0, sigmoid.derivative(710))
+        self.assertAlmostEqual(0, sigmoid.derivative(-1234567890))
+        self.assertAlmostEqual(0, sigmoid.derivative(1234567890))
 
     def testSaveAndLoad(self):
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid())
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid(), average_gradient=False)
         nn.layers[0][0].weights=[0.01, 0.02]
         nn.layers[0][0].bias=0.03
         nn.layers[0][1].weights=[0.04, 0.05]
@@ -33,7 +41,7 @@ class TestNeuralNet(unittest.TestCase):
         tmpfile = tempfile.mkstemp()[1]
         nn.save(tmpfile)
 
-        nn2 = neuralnet.NeuralNet(1, [1, 1], neuralnet.ReLu())
+        nn2 = neuralnet.NeuralNet(1, [1, 1], neuralnet.ReLu(), average_gradient=False)
         nn2.load(tmpfile)
 
         # This should give a more readable error when there are differences
@@ -41,6 +49,7 @@ class TestNeuralNet(unittest.TestCase):
 
         # This ensure the previous test didn't miss any important thing
         self.assertEqual(nn2.activation.name(), nn.activation.name())
+        self.assertEqual(nn2.average_gradient, nn.average_gradient)
         for i in range(0, 2):
             for j in range(0, 2):
                 for k in range(0, 2):
@@ -50,14 +59,14 @@ class TestNeuralNet(unittest.TestCase):
     def testSingleInputNeuronActivation(self):
         # A neuron with a weight of 0.7 and a bias of -0.5 will return 0.2 for an input of 1.
         # Using ReLu allow to have this value directly in output.
-        n = neuralnet.Neuron(1, neuralnet.ReLu())
+        n = neuralnet.Neuron(1, neuralnet.ReLu(), average_gradient=False)
         n.bias = -0.5
         n.weights = [0.7]
 
         self.assertAlmostEqual(0.2, n.output([1.0], for_training=False), 4)
 
     def testMultipleInputsNeuronActivation(self):
-        n = neuralnet.Neuron(3, neuralnet.ReLu())
+        n = neuralnet.Neuron(3, neuralnet.ReLu(), average_gradient=False)
         n.bias = -0.5
         n.weights = [0.7, 0.5, 0.3]
 
@@ -65,7 +74,7 @@ class TestNeuralNet(unittest.TestCase):
         self.assertAlmostEqual(0.33, n.output([0.7, 0.5, 0.3], for_training=False), 4)
 
     def testMultipleLayersNetworkActivation(self):
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu())
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu(), average_gradient=False)
         # 1 -- 0.5 --> [-0.1](A) -- 0.7 --> [-0.2](C)
         #     ^  |              ^  |
         #     |  0.7            |  0.8
@@ -96,7 +105,7 @@ class TestNeuralNet(unittest.TestCase):
         self.assertAlmostEqual(0.56, output[1])
 
     def testBackpropagateErrorOnSingleNeuron(self):
-        n = neuralnet.Neuron(1, neuralnet.ReLu())
+        n = neuralnet.Neuron(1, neuralnet.ReLu(), average_gradient=False)
         n.bias = -0.5
         n.weights = [0.7]
 
@@ -112,7 +121,7 @@ class TestNeuralNet(unittest.TestCase):
     # TODO: test backpropagation on neuron with multiple inputs
 
     def testBackpropagateErrorOnNetwork(self):
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu())
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu(), average_gradient=False)
         # 1 -- 0.5 --> [-0.1](A) -- 0.7 --> [-0.2](C)
         #     ^  |              ^  |
         #     |  0.7            |  0.8
@@ -199,9 +208,11 @@ class TestNeuralNet(unittest.TestCase):
         examples = [a[0] for a in dataset]
         labels = [a[1] for a in dataset]
 
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid())
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid(), average_gradient=False)
         # This empirically proves to be good parameters to train on this
-        nn.train(20*20, 10, 1.0, examples, labels)
+        nn.train(10*20*20, 1, 1.0, examples, labels)
+        # TODO: This should work like this too:
+        #nn.train(20*20, 10, 1.0, examples, labels)
 
         """
         print("")
@@ -268,7 +279,7 @@ class TestNeuralNet(unittest.TestCase):
         ]
         examples = [a[0] for a in dataset]
         labels = [a[1] for a in dataset]
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid())
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid(), average_gradient=False)
         nn.train(20*20*20, 10, 1.0, examples, labels)
         print("")
         print(nn.evaluate([0.4, 0.4]))   # 1

@@ -34,11 +34,26 @@ class ReLu(object):
 class Sigmoid(object):
 
     def value(self, x):
-        return 1.0/(1+math.exp(-x))
+        try:
+            # math.exp overflows after 709, replaces it with inf
+            if x < -709:
+                return 0
+            e_x = math.exp(-x)
+            return 1.0/(1+e_x)
+        except:
+            print("Sigmoid failing for x = %s" % x)
+            raise
 
     def derivative(self, x):
-        e_x = math.exp(-x)
-        return e_x/(1+2*e_x+e_x*e_x)
+        try:
+            # math.exp overflows after 709, replaces it with inf
+            if x < -709:
+                return 0
+            e_x = math.exp(-x)
+            return e_x/(1+2*e_x+e_x*e_x)
+        except:
+            print("Sigmoid derivative failing for x = %s" % x)
+            raise
 
     def name(self):
         return "Sigmoid"
@@ -66,11 +81,12 @@ activations["TanH"] = TanH()
 
 class Neuron(object):
 
-    def __init__(self, nb_inputs, activation):
+    def __init__(self, nb_inputs, activation, average_gradient):
         self.nb_inputs = nb_inputs
         self.weights = [random.uniform(-1, 1) for i in range(0, nb_inputs)]
         self.bias = random.uniform(-1, 1)
         self.activation = activation
+        self.average_gradient = average_gradient
         self.prepare_backprop()
 
     def output(self, previous_layer_values, for_training):
@@ -102,20 +118,24 @@ class Neuron(object):
         return [self.da[i] for i in range(0, self.nb_inputs)]
 
     def per_round_backprop(self):
-        self.bias += self.db / self.nb_evals
+        denominator = 1
+        if self.average_gradient:
+            denominator = self.nb_evals
+        self.bias += self.db / denominator
         for i in range(0, self.nb_inputs):
-            self.weights[i] += self.dw[i] / self.nb_evals
+            self.weights[i] += self.dw[i] / denominator
         self.prepare_backprop()
 
 
 class NeuralNet(object):
 
-    def __init__(self, inputs_size, layers_sizes, activation):
+    def __init__(self, inputs_size, layers_sizes, activation, average_gradient):
         self.layers = []
         self.activation = activation
+        self.average_gradient = average_gradient
         previous_size = inputs_size
         for size in layers_sizes:
-            self.layers.append([Neuron(previous_size, activation) for i in range(0, size)])
+            self.layers.append([Neuron(previous_size, activation, average_gradient) for i in range(0, size)])
             previous_size = size
 
     def evaluate(self, inputs, for_training=False):
@@ -175,6 +195,10 @@ class NeuralNet(object):
             if act not in activations:
                 raise RuntimeError("Unknown activation function '%s' in '%s'" % (act, filename))
             self.activation = activations[act]
+            avg = f.readline().strip()
+            if avg not in ["True", "False"]:
+                raise RuntimeError("Expected boolean for average gradient, got '%s'" % avg)
+            self.average_gradient = (avg == "True")
             layer_sizes = [int(x) for x in f.readline().split(',')]
             self.layers = []
             for l in layer_sizes:
@@ -182,7 +206,7 @@ class NeuralNet(object):
                 for i in range(l):
                     weights = [float(x) for x in f.readline().split(',')]
                     # TODO: Cleaner way to initialize neuron (e.g constructor with params taking either #inputs or list of weights)
-                    neuron = Neuron(len(weights)-1, self.activation)
+                    neuron = Neuron(len(weights)-1, self.activation, self.average_gradient)
                     neuron.weights = weights[:-1]
                     neuron.bias = weights[-1]
                     neuron.prepare_backprop()
@@ -192,6 +216,7 @@ class NeuralNet(object):
     def save(self, filename):
         with open(filename, "w") as f:
             f.write(self.activation.name() + "\n")
+            f.write("%s\n" % self.average_gradient)
             f.write(",".join(["%s" % len(layer) for layer in self.layers]) + "\n")
             for layer in self.layers:
                 for neuron in layer:
@@ -203,4 +228,4 @@ class NeuralNet(object):
             weights += "Layer %s: \n" % i
             for n in l:
                 weights += "    [%s] - %s\n" % (",".join(["%s" % w for w in n.weights]), n.bias)
-        return "[NeuralNet %s layers:\n%s]" % (len(self.layers), weights)
+        return "[NeuralNet %s - activation:%s - avg gradient: %s layers:\n%s]" % (len(self.layers), self.activation.name(), self.average_gradient, weights)
