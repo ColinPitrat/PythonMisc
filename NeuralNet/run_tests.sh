@@ -8,7 +8,7 @@ do
   test_file="tests/test${i}.txt"
   network_file=`head -n 1 "$test_file"`
   expected="tests/network${i}.txt"
-  if [ "$network_file" -ne "$expected" ]
+  if [ "$network_file" != "$expected" ]
   then
     echo "ERROR: Expected '$expected' network file in '$test_file', got '$network_file'"
     exit 1
