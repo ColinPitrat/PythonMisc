@@ -1,6 +1,6 @@
 tests/network19.txt
 20,10
 Sigmoid
-40,1000,10
+100,1000,10
 True
 0.2

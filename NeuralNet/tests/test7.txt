@@ -1,6 +1,6 @@
 tests/network7.txt
 10,10
 Sigmoid
-40,10000,1
+100,10000,1
 False
 0.2

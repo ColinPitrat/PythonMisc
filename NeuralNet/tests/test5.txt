@@ -1,6 +1,6 @@
 tests/network5.txt
 20,10
 Sigmoid
-40,1,10000
+100,1,10000
 False
 0.2
