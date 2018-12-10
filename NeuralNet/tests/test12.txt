@@ -2,4 +2,5 @@ tests/network12.txt
 20,10
 TanH
 40,10000,1
+False
 0.2

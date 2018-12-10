@@ -2,4 +2,5 @@ tests/network8.txt
 30,10
 Sigmoid
 40,10000,1
+False
 0.2

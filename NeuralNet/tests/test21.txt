@@ -1,6 +1,6 @@
-tests/network4.txt
+tests/network21.txt
 20,10
 Sigmoid
 40,10,1000
-False
+True
 0.2

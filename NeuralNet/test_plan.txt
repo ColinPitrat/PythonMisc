@@ -1,0 +1,30 @@
+ 1- [784,20,10] Sigmoid Training per round = 10000, Samples per training = 1, No average gradient, Learning rate 0.2
+ 2- Training per round = 1000, Samples per training = 10
+ 3- Training per round = 100, Samples per training = 100
+ 4- Training per round = 10, Samples per training = 1000
+ 5- Training per round = 1, Samples per training = 10000
+ 6- [784,20,20,10]
+ 7- [784,10,10]
+ 8- [784,30,10]
+ 9- [784,40,10]
+10- [784,15,10]
+11- [784,25,10]
+12- Tanh
+13- ReLu
+14- LeakyRelu
+# 15->18 and 19->22 should logically give the exact same result
+15- Training per round = 1000, Samples per training = 10, Learning rate 0.02
+16- Training per round = 100, Samples per training = 100, Learning rate 0.002
+17- Training per round = 10, Samples per training = 1000, Learning rate 0.0002
+18- Training per round = 1, Samples per training = 10000, Learning rate 0.00002
+19- Training per round = 1000, Samples per training = 10, Average gradient
+20- Training per round = 100, Samples per training = 100, Average gradient
+21- Training per round = 10, Samples per training = 1000, Average gradient
+22- Training per round = 1, Samples per training = 10000, Average gradient
+
+TODO:
+- Variable learning rate 1*0.9^n
+
+Tested in the past, (without the automated testing in place) not retried:
+ - initialize weight & bias with random distribution [0,1] instead of [-1,1] => Does not work well at all !
+
