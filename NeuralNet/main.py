@@ -73,6 +73,9 @@ def load_params(filename):
         result['nb_epochs'] = ne
         result['rounds_per_epoch'] = rpe
         result['samples_per_round'] = spr
+        avg = f.readline().strip()
+        assert avg in ["True", "False"]
+        result['average_gradient'] = (avg == "True")
         lr = [float(x) for x in f.readline().strip().split(',')]
         if len(lr) == 1:
             lr = lr * ne
@@ -96,8 +99,9 @@ def train_network(filename):
 
     layers = params['layers']
     output_file = params['output_file']
+    average_gradient = params['average_gradient']
 
-    nn = neuralnet.NeuralNet(784, layers, neuralnet.Sigmoid())
+    nn = neuralnet.NeuralNet(784, layers, neuralnet.Sigmoid(), average_gradient)
     # Uncomment to continue an already started training
     #nn.load(params['output_file'])
 
