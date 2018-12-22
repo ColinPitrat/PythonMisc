@@ -85,7 +85,7 @@ def load_params(filename):
 
 def test_network(filename):
     test_labels, test_images, test_examples = load_data(TEST_LABELS, TEST_IMAGES, None)
-    nn = neuralnet.NeuralNet(784, [10], neuralnet.Sigmoid())
+    nn = neuralnet.NeuralNet(784, [10], neuralnet.Sigmoid(), average_gradient=False)
     nn.load(filename)
     score = evaluate_network(nn, test_examples, test_labels, test_images, verbose=True)
     print("Score: %s" % score)
