@@ -33,7 +33,24 @@ def fast_evaluate_network(nn, test_examples, test_labels, test_images):
             correct += 1
     return correct*1.0/nb_tests
 
-def evaluate_network(nn, test_examples, test_labels, test_images, verbose=False):
+def show_confusion(confusion):
+    print("Confusion matrix:")
+    print("Predicted / Real ->")
+    print("|")
+    print("v")
+    # Header
+    line = " "
+    for j in range(len(confusion)):
+      line += "\t%s" % j
+    print(line)
+    # Lines
+    for i in range(len(confusion)):
+      line = "%s" % i
+      for j in range(len(confusion)):
+        line += "\t%s" % confusion[i][j]
+      print(line)
+
+def evaluate_network(nn, test_examples, test_labels, test_images, verbose=False, confusion=None):
     correct = 0
     nb_tests = 0
     for label, example, image in zip(test_labels, test_examples, test_images):
@@ -43,6 +60,8 @@ def evaluate_network(nn, test_examples, test_labels, test_images, verbose=False)
         elif verbose:
             print("This is a %d recognized as a %s" % (label, result))
             print(mnist.image_to_string(image))
+        if confusion:
+            confusion[result][label] += 1
         nb_tests += 1
     return correct*1.0/nb_tests
 
@@ -85,10 +104,13 @@ def load_params(filename):
 
 def test_network(filename):
     test_labels, test_images, test_examples = load_data(TEST_LABELS, TEST_IMAGES, None)
+    labels = set(test_labels)
+    confusion = [[0] * len(labels) for i in range(len(labels))]
     nn = neuralnet.NeuralNet(784, [10], neuralnet.Sigmoid(), average_gradient=False)
     nn.load(filename)
-    score = evaluate_network(nn, test_examples, test_labels, test_images, verbose=True)
+    score = evaluate_network(nn, test_examples, test_labels, test_images, verbose=False, confusion=confusion)
     print("Score: %s" % score)
+    show_confusion(confusion)
 
 def train_network(filename):
     params = load_params(filename)
@@ -100,8 +122,9 @@ def train_network(filename):
     layers = params['layers']
     output_file = params['output_file']
     average_gradient = params['average_gradient']
+    activation = neuralnet.activations[params['activation']]
 
-    nn = neuralnet.NeuralNet(784, layers, neuralnet.Sigmoid(), average_gradient)
+    nn = neuralnet.NeuralNet(784, layers, activation, average_gradient)
     # Uncomment to continue an already started training
     #nn.load(params['output_file'])
 
