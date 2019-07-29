@@ -63,7 +63,7 @@ def read_images(filename, limit=None):
     return result
 
 def image_to_string(image):
-    print(image)
+    return image.__str__()
 
 try:
     from PIL import Image
