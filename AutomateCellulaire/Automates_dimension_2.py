@@ -7,14 +7,23 @@
 #  - la plupart des automates sont ininteressants
 #  - il faut ecrire des methodes pour generer les nombres pour les configurations connues
 
-import pygame, random, math
+# Le numero decrivant une transition est de la forme: a b c d e f g h i en base nb_etats
+# pour le voisinage suivant du point e:
+# i h g
+# f e d
+# c b a
+
+import pygame, random
 import pygame.gfxdraw
-pygame.init()
+import numpy
 
 # Profiling
 import cProfile, pstats, StringIO
 pr = cProfile.Profile()
 pr.enable()
+
+pygame.init()
+
 ##############
 # Constantes #
 ##############
@@ -34,7 +43,7 @@ couleurs = [ blanc, bleu, vert, rouge, cyan, magenta, jaune ]
 # Avec un voisinage de 8 cellules plus la cellule elle meme, pour 2 etats, on a
 # un maximum de 2^9 = 512 configuration de voisinage possible, Soit 2^512
 # automates possibles
-nb_etats = 3
+nb_etats = 2
 max_voisinages = nb_etats**10
 max_num_automate = nb_etats**max_voisinages
 
@@ -52,7 +61,7 @@ tmp_reseau = []
 
 quitter = False
 pause = False
-num_automate = random.randint(0, max_num_automate)
+step = False
 random_conf = True
 show_info = True
 
@@ -74,32 +83,10 @@ def init():
       tmp_reseau[x].append(0)
 
 
-def compute_transition(nb):
-    digit_value = nb_etats**nb
-    transition[nb] = (num_automate / digit_value) % nb_etats
-
-
-# Le numero de l'automate est de la forme: a b c d e f g h i
-# Pour le voisinage suivant du point e:
-# i h g
-# f e d
-# c b a
-def reinit(num_automate):
-  global transition, reseau, largeur_reseau, hauteur_reseau, ecran, noir, random_conf
-  precompute_transitions = False
+def reinit():
+  global reseau, largeur_reseau, hauteur_reseau, ecran, noir, random_conf
   ecran.fill(noir)
   pygame.display.flip()
-  # Cree la table de transition a partir du numero de l'automate
-  transition = [None] * max_voisinages
-  if precompute_transitions:
-    digit_value = 1
-    for nb in range(0, max_voisinages):
-      if (nb % 1000) == 0:
-          print("nb = %s" % nb)
-      digit_value *= nb_etats
-      transition[nb] = (num_automate / digit_value) % nb_etats
-      #if ((num_automate / digit_value) % nb_etats):
-      #    print("Alive for %s" % bin(nb))
 
   # Cree la configuration initiale
   for x in range(0, largeur_reseau):
@@ -110,13 +97,13 @@ def reinit(num_automate):
         reseau[x][y] = 0
 
 
-def describe_automate(num_automate):
-  print("Automate %s" % (num_automate))
+def describe_automate(automate):
+  print("Automate %s" % (automate))
 
 
-#############################################
-# Calcul les nombres d'automates classiques #
-#############################################
+#################################################
+# Calcul les transitions d'automates classiques #
+#################################################
 
 def nb_states_in_voisinage(state, nb):
     num = 0
@@ -130,63 +117,159 @@ def is_self_in_state(state, nb):
     return ((nb / (nb_etats ** 4)) % nb_etats) == state
 
 # Necessite 2 etats au moins
-def num_game_of_life():
-  num = 0
+def make_game_of_life():
+  result = []
   for nb in range(0, max_voisinages):
-    #alives = bin(nb).count('1')
     alives = nb_states_in_voisinage(1, nb)
-    if is_self_in_state(1, nb): # La cellul est vivante
+    if is_self_in_state(1, nb): # La cellule est vivante
         if alives == 3 or alives == 4: # 2 ou 3 cellules vivantes en plus d'elle
-            print("Alive and stay alive for %s" % bin(nb))
-            num += nb_etats**nb
+            #print("Alive and stay alive for %s" % bin(nb))
+            result.append(1)
+        else:
+            result.append(0)
     else: # La cellule est morte
         if alives == 3: # 3 cellules vivantes autour d'elle
-            print("Dead and become alive for %s" % bin(nb))
-            num += nb_etats**nb
-  print("Game of life is: %s" % num)
-  return num
+            #print("Dead and become alive for %s" % bin(nb))
+            result.append(1)
+        else:
+            result.append(0)
+  #print("Game of life is: %s" % result)
+  return result
 
 
 # Necessite 2 etats au moins
-def num_seeds():
-  num = 0
+def make_seeds():
+  result = []
   for nb in range(0, max_voisinages):
     #alives = bin(nb).count('1')
     alives = nb_states_in_voisinage(1, nb)
     if is_self_in_state(1, nb): # La cellule est vivante
         if alives == 3: # 2 cellules vivantes en plus d'elle
-            print("Alive and stay alive for %s" % bin(nb))
-            num += nb_etats**nb
+            #print("Alive and stay alive for %s" % bin(nb))
+            result.append(1)
+        else:
+            result.append(0)
     else: # La cellule est morte
         if alives == 2: # 2 cellules vivantes autour d'elle
-            print("Dead and become alive for %s" % bin(nb))
-            num += nb_etats**nb
-  print("Seeds is: %s" % num)
-  return num
+            #print("Dead and become alive for %s" % bin(nb))
+            result.append(1)
+        else:
+            result.append(0)
+  #print("Seeds is: %s" % result)
+  return result
+
+# Necessite 2 etats au moins
+def make_life_without_death():
+  result = []
+  for nb in range(0, max_voisinages):
+    alives = nb_states_in_voisinage(1, nb)
+    if is_self_in_state(1, nb): # La cellule est vivante
+        result.append(1)
+    else: # La cellule est morte
+        if alives == 3: # 3 cellules vivantes autour d'elle
+            #print("Dead and become alive for %s" % bin(nb))
+            result.append(1)
+        else:
+            result.append(0)
+  #print("Life without death is: %s" % result)
+  return result
+
+# Necessite 2 etats au moins
+def make_day_and_night():
+  result = []
+  for nb in range(0, max_voisinages):
+    alives = nb_states_in_voisinage(1, nb)
+    if is_self_in_state(1, nb): # La cellule est vivante
+        if alives == 4 or alives == 5 or alives >= 7: # 3, 4, 6, 7 ou 8 cellules vivantes en plus d'elle
+            #print("Alive and stay alive for %s" % bin(nb))
+            result.append(1)
+        else:
+            result.append(0)
+    else: # La cellule est morte
+        if alives == 3 or alives >= 6: # 3, 6, 7 ou 8 cellules vivantes autour d'elle
+            #print("Dead and become alive for %s" % bin(nb))
+            result.append(1)
+        else:
+            result.append(0)
+  #print("Day and night is: %s" % result)
+  return result
+
 
 # Necessite 3 etats au moins - 0 est morte, 1 est vivant, 2 est mourrant
-def num_brian_brain():
-  num = 0
+def make_brian_brain():
+  result = []
   for nb in range(0, max_voisinages):
     alives = nb_states_in_voisinage(1, nb)
     if is_self_in_state(0, nb): # La cellule est morte, ell ne nait que si elle a 2 voisines
         if alives == 2: # 2 cellules vivantes
-            num += nb_etats**nb
-    # Si la cellule est mourrante, elle sera morte ensuite donc on n'ajoute rien a num
+            result.append(1)
+        else:
+            result.append(0)
     elif is_self_in_state(1, nb): # La cellule est vivante, elle sera mourrante
-        num += 2*(nb_etats**nb)
-  print("Brian is: %s" % num)
-  return num
+        result.append(2)
+    # Si la cellule est mourrante, elle sera morte ensuite donc on n'ajoute rien a num
+    else:
+        result.append(0)
+  #print("Brian is: %s" % result)
+  return result
 
+# Necessite 2 etats au moins
+# Une cellule est vivante a t+1 si elle a un nombre impair de voisins vivant a t
+def make_replicator():
+  result = []
+  for nb in range(0, max_voisinages):
+    alives = nb_states_in_voisinage(1, nb)
+    if is_self_in_state(0, nb):
+        result.append(alives % 2)
+    else:
+        result.append((alives+1) % 2)
+  #print("Replicator is: %s" % result)
+  return result
 
-#num_automate = num_game_of_life()
-#num_automate = num_seeds()
-#num_automate = num_brian_brain()
+# Necessite 2 etats au moins
+# Une cellule est vivante a t+1 si elle a un nombre impair de voisins (incluant elle meme) vivant a t
+def make_replicator2():
+  result = []
+  for nb in range(0, max_voisinages):
+    alives = nb_states_in_voisinage(1, nb)
+    result.append(alives % 2)
+  #print("Replicator is: %s" % result)
+  return result
+
+def make_random():
+  #return [random.randint(0, nb_etats) for x in range(0, max_voisinages)]
+  return numpy.random.randint(nb_etats, size=max_voisinages)
+
+def prev_automate():
+  global transition
+  for idx in range(-1, -max_voisinages, -1):
+      transition[idx] -= 1
+      if transition[idx] == -1:
+        transition[idx] = nb_etats
+      else:
+        break
+
+def next_automate():
+  global transition
+  for idx in range(-1, -max_voisinages, -1):
+      transition[idx] += 1
+      if transition[idx] == nb_etats:
+        transition[idx] = 0
+      else:
+        break
+
+#transition = make_game_of_life()
+#transition = make_life_without_death()
+#transition = make_seeds()
+#transition = make_brian_brain()
+#transition = make_random()
+#transition = make_day_and_night()
+transition = make_replicator()
 #####################
 # Boucle principale #
 #####################
 init()
-reinit(num_automate)
+reinit()
 while quitter != True:
     # Boucle d'evenements
     for event in pygame.event.get():
@@ -203,29 +286,32 @@ while quitter != True:
             if event.key == pygame.K_ESCAPE:
                 quitter = True
             elif event.key == pygame.K_p:
-                num_automate = (num_automate + 1) % max_num_automate
-                describe_automate(num_automate)
-                reinit(num_automate);
+                next_automate()
+                #describe_automate(transition)
+                reinit();
             elif event.key == pygame.K_m:
-                num_automate = (num_automate - 1) % max_num_automate
-                describe_automate(num_automate)
-                reinit(num_automate)
+                prev_automate()
+                #describe_automate(transition)
+                reinit()
             elif event.key == pygame.K_n:
-                num_automate = random.randint(0, max_num_automate)
-                describe_automate(num_automate)
-                reinit(num_automate)
+                transition = make_random()
+                #describe_automate(transition)
+                reinit()
             elif event.key == pygame.K_r:
                 random_conf = not random_conf
-                reinit(num_automate)
+                reinit()
             elif event.key == pygame.K_c:
-                reinit(num_automate);
+                reinit();
             elif event.key == pygame.K_i:
                 show_info = not show_info
+            elif event.key == pygame.K_s:
+                step = True
             elif event.key == pygame.K_SPACE:
                 pause = not pause
 
     # Calcul de la generation suivante
-    if not pause:
+    if not pause or step:
+      step = False
       for x in range(0, largeur_reseau):
         for y in range(0, hauteur_reseau):
           nb = 0
