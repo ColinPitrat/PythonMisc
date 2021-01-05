@@ -19,6 +19,8 @@ def build_model():
     layers.Dense(64, activation='relu'),
     layers.Dense(64, activation='relu'),
     layers.Dense(64, activation='relu'),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(64, activation='relu'),
     layers.Dense(1),
   ])
 
@@ -39,7 +41,7 @@ def generate_data(N):
   inputs = [(x-N/2)/N for x in range(N+1)]
   return pd.DataFrame({
     'Input': inputs,
-    'Output': [math.sin(3.0*math.pi*x) for x in inputs],
+    'Output': [math.sin(6.0*math.pi*x) for x in inputs],
   #  'Output': [math.sin(x) for x in inputs],
   })
 
@@ -72,8 +74,10 @@ def main():
   # These are all prime numbers
   #train = generate_data(100109)
   train = generate_data(10007)
-  validation = generate_data(3019)
+  #validation = generate_data(3019)
+  validation = generate_data(1009)
   validation = (validation['Input'], validation['Output'])
+  print(validation)
   test = generate_data(5003)
   #print(train)
   #train.plot(x='Input', y='Output')
@@ -84,8 +88,10 @@ def main():
   history = model.fit(
     train['Input'], train['Output'],
     shuffle=True,
-    epochs=200, validation_data=validation,
-    verbose=False, callbacks=[PrintDot()])
+    epochs=1000,
+    validation_data=validation,
+    verbose=False,
+    callbacks=[PrintDot()])
 
   plot_history(history)
   test_model(model, test)
