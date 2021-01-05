@@ -21,7 +21,7 @@ class Img(object):
         for i in range(0, self.height):
             line = ""
             for j in range(0, self.width):
-                if self.pixels[i*self.width+j] < 0.01:
+                if self.pixels[i*self.width+j] < -0.5:
                     line += " "
                 elif self.pixels[i*self.width+j] < 0.5:
                     line += "."
