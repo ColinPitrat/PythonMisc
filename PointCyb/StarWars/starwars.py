@@ -2,7 +2,7 @@
 import sys, pygame, random, time, pygame.gfxdraw
 pygame.init()
 
-size = width, height = 1600, 1200
+size = width, height = 1600, 1000
 black = 0, 0, 0
 blue = 0, 0, 255
 white = 255, 255, 255
@@ -156,7 +156,8 @@ while 1:
         screen.blit(game_over, ((width - game_over.get_width()) / 2, (height - game_over.get_height()) / 2))
 
     font = pygame.font.SysFont("arial", 20);
-    information = font.render("Level: %s - Energie: %s - Score: %s" % (proba_asteroide - min_proba_asteroide + 1, energie * 100 / max_energie, score), True, (255, 0, 0))
+    level = (proba_asteroide - min_proba_asteroide) // 10 + 1
+    information = font.render("Level: %s - Energie: %s - Score: %s" % (level, energie * 100 / max_energie, score), True, (255, 0, 0))
     screen.blit(information, (width - information.get_width(), 0))
 
 
