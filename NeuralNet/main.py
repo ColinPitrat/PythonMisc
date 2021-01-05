@@ -102,6 +102,29 @@ def load_params(filename):
         result['learning_rates'] = lr
     return result
 
+def reverse_evaluate(filename):
+    nn = neuralnet.NeuralNet(0, [], neuralnet.Sigmoid())
+    nn.load(filename)
+    inputs = len(nn.layers[-1])
+    layers = [len(l) for l in reversed(nn.layers[:-1])]
+    layers.append(len(nn.layers[0][0].weights))
+    rev_nn = neuralnet.NeuralNet(inputs, layers, nn.activation)
+    for li, l in enumerate(nn.layers):
+        rl = rev_nn.layers[-li-1]
+        for ni, n in enumerate(l):
+            rn = rl[ni]
+            rn.weights = [0] * len(n.weights)
+            for wi, w in enumerate(n.weights):
+                rn.weights[wi] = w
+            rn.bias = -n.bias
+    results = []
+    for i in range(inputs):
+        inp = [0] * inputs
+        inp[i] = 1
+        result = rev_nn.evaluate(inp, for_training=False)
+        results.append(result)
+    return results
+
 def test_network(filename):
     test_labels, test_images, test_examples = load_data(TEST_LABELS, TEST_IMAGES, None)
     labels = set(test_labels)
@@ -159,5 +182,15 @@ if __name__ == "__main__":
         train_network(sys.argv[2])
     elif sys.argv[1] == 'test':
         test_network(sys.argv[2])
+    elif sys.argv[1] == 'reverse':
+        results = reverse_evaluate(sys.argv[2])
+        nn = neuralnet.NeuralNet(0, [], neuralnet.Sigmoid())
+        nn.load(sys.argv[2])
+        for i, r in enumerate(results):
+            print("")
+            print("This is a typical %s:" % i)
+            img = mnist.Img(28, 28, r)
+            print(mnist.image_to_string(img))
+            print("Recognized as a %s: %s" % (nn.predict(r, for_training=False), nn.evaluate(r, for_training=False)))
     else:
         usage("Unknown action '%s'" % sys.argv[1])
