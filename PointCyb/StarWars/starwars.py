@@ -1,8 +1,8 @@
 #!/usr/bin/python2
-import sys, pygame, random, pygame.gfxdraw
+import sys, pygame, random, time, pygame.gfxdraw
 pygame.init()
 
-size = width, height = 800, 600
+size = width, height = 1600, 1200
 black = 0, 0, 0
 blue = 0, 0, 255
 white = 255, 255, 255
@@ -55,7 +55,10 @@ for i in range(0, nb_etoiles):
     etoiles.append([random.randint(0, width), (random.randint(0, height)), (color, color, color)])
 loops = 0
 
+fps_begin = pygame.time.get_ticks()
+fps_count = 0
 while 1:
+    begin_loop = pygame.time.get_ticks()
     old_rect = vaisseau_rect
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -165,5 +168,14 @@ while 1:
             lasers.remove(laser)
 
     pygame.display.flip()
-    loops = loops + 1
+    loops += 1
     increase_proba += 1
+    fps_count += 1
+
+    while pygame.time.get_ticks() - begin_loop < 15:
+        time.sleep(0.001)
+
+    if pygame.time.get_ticks() - fps_begin > 1000:
+        print("%s FPS" % ((1000 * fps_count) / (pygame.time.get_ticks() - fps_begin)));
+        fps_begin = pygame.time.get_ticks()
+        fps_count = 0
