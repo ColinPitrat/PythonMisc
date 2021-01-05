@@ -1,0 +1,5 @@
+icon.png: https://opengameart.org/content/chess-pieces-and-a-board
+board: https://opengameart.org/content/chess-pieces-and-a-board
+ivory: https://opengameart.org/content/chess-pieces-and-a-board
+simple: https://opengameart.org/content/chess-pieces-and-a-board
+wood3D: https://opengameart.org/content/chess-pieces-and-a-board
