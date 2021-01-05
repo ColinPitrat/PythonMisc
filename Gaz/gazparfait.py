@@ -3,7 +3,7 @@
 
 import pygame, random, math, time
 
-resolution = width, height = 400, 400
+resolution = width, height = 800, 800
 
 noir = 0, 0, 0
 rouge = 255, 0, 0
