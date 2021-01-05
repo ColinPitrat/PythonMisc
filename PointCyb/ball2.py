@@ -23,7 +23,7 @@ def increase_speed(delta):
                 speed[direction] = speed[direction] + delta
             else:
                 speed[direction] = speed[direction] - delta
-  
+
 count=0
 zoom=1
 begin = pygame.time.get_ticks();
@@ -32,20 +32,20 @@ while 1:
     # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
-        if event.type == pygame.KEYDOWN: 
+        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE: sys.exit()
             if event.key == pygame.K_q: sys.exit()
-            if event.key == pygame.K_b: 
+            if event.key == pygame.K_b:
                 zoom = zoom * 1.1
-            if event.key == pygame.K_n: 
+            if event.key == pygame.K_n:
                 zoom = zoom / 1.1
-            if event.key == pygame.K_f: 
+            if event.key == pygame.K_f:
                 increase_speed(1)
-            if event.key == pygame.K_s: 
+            if event.key == pygame.K_s:
                 increase_speed(-1)
-            if event.key == pygame.K_r: 
+            if event.key == pygame.K_r:
                 anglespeed += 0.1
-            if event.key == pygame.K_u: 
+            if event.key == pygame.K_u:
                 anglespeed -= 0.1
 
     oldrect = blitrect
