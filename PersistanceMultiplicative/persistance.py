@@ -1,3 +1,17 @@
+# -*- coding: utf-8 -*-
+
+# La suite multiplicative d'un nombre est la suite de nombres qu'on obtient en
+# multipliant les chiffres de ce nombre et en réitérant sur le résultat. Par
+# exemple 1729: 1*7*2*9 = 126, 1*2*6 = 12, 1*2 = 2.
+# La suite multiplicative de 1729 est donc: 1729, 126, 12, 2
+#
+# La persistance multiplicative d'un nombre est le nombre de fois qu'il a fallu
+# répéter l'opération pour aboutir à un point fixe (un nombre d'un seul
+# chiffre). Pour 1729, p = 3 (il a fallu appliquer l'opération 3 fois).
+#
+# Bien sûr, la suite et la persistence dépendent de la base dans laquelle on
+# écrit le nombre.
+
 # La version recursive ne peut pas gerer des nombres trop grands (RuntimeError: maximum recursion depth exceeded)
 def __entier_en_base_interne_recursive(num, b, numerals):
    return ((num == 0) and numerals[0]) or (__entier_en_base_interne(num // b, b, numerals).lstrip(numerals[0]) + numerals[num % b])
@@ -8,7 +22,7 @@ def __entier_en_base_interne(num, b, numerals):
       result = numerals[num % b] + result
       num = num // b
    return result
-      
+
 
 def entier_en_base(num, b, numerals="0123456789abcdefghijklmnopqrstuvwxyz"):
    if num > 0:
