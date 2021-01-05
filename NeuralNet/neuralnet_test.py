@@ -28,7 +28,7 @@ class TestNeuralNet(unittest.TestCase):
         self.assertAlmostEqual(0, sigmoid.derivative(1234567890))
 
     def testSaveAndLoad(self):
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid(), average_gradient=False)
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid())
         nn.layers[0][0].weights=[0.01, 0.02]
         nn.layers[0][0].bias=0.03
         nn.layers[0][1].weights=[0.04, 0.05]
@@ -41,7 +41,7 @@ class TestNeuralNet(unittest.TestCase):
         tmpfile = tempfile.mkstemp()[1]
         nn.save(tmpfile)
 
-        nn2 = neuralnet.NeuralNet(1, [1, 1], neuralnet.ReLu(), average_gradient=False)
+        nn2 = neuralnet.NeuralNet(1, [1, 1], neuralnet.ReLu())
         nn2.load(tmpfile)
 
         # This should give a more readable error when there are differences
@@ -59,14 +59,14 @@ class TestNeuralNet(unittest.TestCase):
     def testSingleInputNeuronActivation(self):
         # A neuron with a weight of 0.7 and a bias of -0.5 will return 0.2 for an input of 1.
         # Using ReLu allow to have this value directly in output.
-        n = neuralnet.Neuron(1, neuralnet.ReLu(), average_gradient=False)
+        n = neuralnet.Neuron(1, neuralnet.ReLu(), False)
         n.bias = -0.5
         n.weights = [0.7]
 
         self.assertAlmostEqual(0.2, n.output([1.0], for_training=False), 4)
 
     def testMultipleInputsNeuronActivation(self):
-        n = neuralnet.Neuron(3, neuralnet.ReLu(), average_gradient=False)
+        n = neuralnet.Neuron(3, neuralnet.ReLu(), False)
         n.bias = -0.5
         n.weights = [0.7, 0.5, 0.3]
 
@@ -74,7 +74,7 @@ class TestNeuralNet(unittest.TestCase):
         self.assertAlmostEqual(0.33, n.output([0.7, 0.5, 0.3], for_training=False), 4)
 
     def testMultipleLayersNetworkActivation(self):
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu(), average_gradient=False)
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu())
         # 1 -- 0.5 --> [-0.1](A) -- 0.7 --> [-0.2](C)
         #     ^  |              ^  |
         #     |  0.7            |  0.8
@@ -105,13 +105,13 @@ class TestNeuralNet(unittest.TestCase):
         self.assertAlmostEqual(0.56, output[1])
 
     def testBackpropagateErrorOnSingleNeuron(self):
-        n = neuralnet.Neuron(1, neuralnet.ReLu(), average_gradient=False)
+        n = neuralnet.Neuron(1, neuralnet.ReLu(), False)
         n.bias = -0.5
         n.weights = [0.7]
 
         self.assertAlmostEqual(0.2, n.output([1.0], for_training=True), 4)
 
-        # Assume expected error was 1 -> provide error of 0.8
+        # Assume expected output was 1 -> provide error of 0.8
         da = n.per_eval_backprop(0.8)
 
         self.assertAlmostEqual(1.6, n.db)
@@ -121,7 +121,7 @@ class TestNeuralNet(unittest.TestCase):
     # TODO: test backpropagation on neuron with multiple inputs
 
     def testBackpropagateErrorOnNetwork(self):
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu(), average_gradient=False)
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.ReLu())
         # 1 -- 0.5 --> [-0.1](A) -- 0.7 --> [-0.2](C)
         #     ^  |              ^  |
         #     |  0.7            |  0.8
@@ -208,7 +208,7 @@ class TestNeuralNet(unittest.TestCase):
         examples = [a[0] for a in dataset]
         labels = [a[1] for a in dataset]
 
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid(), average_gradient=False)
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid())
         # This empirically proves to be good parameters to train on this
         nn.train(10*20*20, 1, 1.0, examples, labels)
         # TODO: This should work like this too:
@@ -279,7 +279,7 @@ class TestNeuralNet(unittest.TestCase):
         ]
         examples = [a[0] for a in dataset]
         labels = [a[1] for a in dataset]
-        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid(), average_gradient=False)
+        nn = neuralnet.NeuralNet(2, [2, 2], neuralnet.Sigmoid())
         nn.train(20*20*20, 10, 1.0, examples, labels)
         print("")
         print(nn.evaluate([0.4, 0.4]))   # 1
