@@ -1,6 +1,6 @@
 tests/network13.txt
-20,10
+100,10
 ReLu
-100,10000,1
-False
-0.2
+100,6000,10
+True
+0.1
