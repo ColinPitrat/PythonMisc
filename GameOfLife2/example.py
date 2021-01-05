@@ -1,6 +1,7 @@
 import numpy
 import itertools
 import sys
+import time
 
 class GOL:
 
@@ -40,7 +41,7 @@ class GOL:
         self.map_ = map_copy
 
     def print_line(self, y):
-        CELL_REP = [ '.', 'X' ]
+        CELL_REP = [ ' ', 'X' ]
         for x in range(0, self.width_):
             sys.stdout.write(CELL_REP[int(self.map_[y][x])])
 
@@ -49,19 +50,22 @@ class GOL:
             self.print_line(y)
             sys.stdout.write('\n')
 
-g = GOL(10, 10)
-g.randomize()
-for i in range(0, 100):
-    g.pretty_print()
-    g.next_generation()
-
-g2 = GOL(19, 26)
-for x in range(8, 11):
-  for y in range(9, 17):
-    if x == 9 and (y == 10 or y == 15):
-        continue
-    g2.set_alive(x, y)
-for i in range(0, 100):
-    g2.pretty_print()
-    g2.next_generation()
-    print(" ===== ")
+if False:
+    g = GOL(120, 100)
+    g.randomize()
+    for i in range(0, 100):
+        g.pretty_print()
+        g.next_generation()
+        time.sleep(0.1)
+else:
+    g2 = GOL(19, 26)
+    for x in range(8, 11):
+      for y in range(9, 17):
+        if x == 9 and (y == 10 or y == 15):
+            continue
+        g2.set_alive(x, y)
+    for i in range(0, 100):
+        g2.pretty_print()
+        g2.next_generation()
+        print(" ===== ")
+        time.sleep(0.1)
