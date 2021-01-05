@@ -158,6 +158,9 @@ class Picross(object):
             c = "picross.Cell.FULL" if val == Cell.FULL else "picross.Cell.EMPTY"
             f.write("p.set(%d, %d, %s)\n" % (x, y, c))
 
+  def complete(self):
+    return not any([c == Cell.UNKNOWN for row in self._rows for c in row])
+
   def solve(self):
     progress = True
     while progress:
@@ -207,11 +210,14 @@ class Picross(object):
             self.set(x, i, val)
             progress = True
       self.serialize("intermediate_result.txt")
-    self.serialize("before_backtracking.txt")
-    print("Now backtracking...")
-    all_results = self.backtrack()
-    print("*****************")
-    print("* Full results: *")
-    print("*****************")
-    for r in all_results:
-      print(r)
+      if self.complete():
+        break
+    print(self)
+    if not self.complete():
+      print("Now backtracking...")
+      all_results = self.backtrack()
+      print("*****************")
+      print("* Full results: *")
+      print("*****************")
+      for r in all_results:
+        print(r)

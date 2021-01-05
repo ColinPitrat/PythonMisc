@@ -79,6 +79,21 @@ class TestPicross(unittest.TestCase):
                       [picross.Cell.FULL] * e + [picross.Cell.EMPTY] * f
                       ))
 
+   def test_complete(self):
+      p = picross.Picross(5,
+                  [[1], [1], [1], [1], [1]],
+                  [[5], [0], [0], [0], [0]]);
+      self.assertFalse(p.complete());
+      for i in range(5):
+        p.set(i, 0, picross.Cell.FULL)
+      self.assertFalse(p.complete());
+      for i in range(5):
+        self.assertFalse(p.complete());
+        for j in range(1, 5):
+          self.assertFalse(p.complete());
+          p.set(i, j, picross.Cell.EMPTY)
+      self.assertTrue(p.complete());
+
    def test_valid(self):
       p = picross.Picross(5,
                   [[1], [1], [1], [1], [1]],
