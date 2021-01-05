@@ -25,11 +25,13 @@ v3 = 0, 192, 0
 v4 = 0, 255, 0
 
 couleurs = [ b1, b2, b3, b4, v1, v2, v3, v4, b1, b2, b3, b4, v1, v2, v3, v4, b1, b2, b3, b4, v1, v2, v3, v4, b1, b2, b3, b4, v1, v2, v3, v4, b1, b2, b3, b4, v1, v2, v3, v4, b1, b2, b3, b4, v1, v2, v3, v4, b1, b2, b3, b4, v1, v2, v3, v4, b1, b2, b3, b4, v1, v2, v3, v4, rouge ]
-#couleurs = [ b1, b2, b3, rouge, b4, v1, v2, v3, v4, rouge ]
+#couleurs = [ b1, b2, b3, rouge ]
+couleurs = [ b1, b2, b3, b4, v1, v2, v3, v4, rouge ]
 
 nombre_pas = 100000
 nb_marcheurs = 64
-#nb_marcheurs = 3
+nb_marcheurs = 3
+nb_marcheurs = 8
 taille_pas = 5
 marge = 10
 
