@@ -27,7 +27,7 @@ pygame.init()
 ##############
 # Constantes #
 ##############
-resolution = largeur, hauteur = 800, 800
+resolution = largeur, hauteur = 1000, 1000
 
 noir = 0, 0, 0
 rouge = 255, 0, 0
@@ -265,6 +265,7 @@ def next_automate():
 #transition = make_random()
 #transition = make_day_and_night()
 transition = make_replicator()
+#transition = make_replicator2()
 #####################
 # Boucle principale #
 #####################
