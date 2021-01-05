@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-"
+
 import math
 import random
 
@@ -83,11 +86,21 @@ class Neuron(object):
 
     def __init__(self, nb_inputs, activation, average_gradient):
         self.nb_inputs = nb_inputs
-        self.weights = [random.uniform(-1, 1) for i in range(0, nb_inputs)]
+        # TODO: support multiple initialization logics and try them in
+        # combination with various other parameters, in particular activation
+        # function
+        # To support: [0, 1], [-1, 1], [-1, 1]/sqrt(N) ...
+        self.weights = [random.uniform(-1, 1)/math.sqrt(nb_inputs) for i in range(0, nb_inputs)]
         self.bias = random.uniform(-1, 1)
         self.activation = activation
         self.average_gradient = average_gradient
         self.prepare_backprop()
+
+    def __repr__(self):
+        return "Neuron(b=%s, w=%s)" % (self.bias, self.weights[0:20])
+
+    def __str__(self):
+        return "Neuron(b=%s, w=%s)" % (self.bias, self.weights[0:20])
 
     def output(self, previous_layer_values, for_training):
         result = self.bias
@@ -108,7 +121,7 @@ class Neuron(object):
 
     def per_eval_backprop(self, error, learning_rate=1):
         self.nb_evals += 1
-        delta = 2*error * self.activation.derivative(self.last_value)
+        delta = 2.0*error * self.activation.derivative(self.last_value)
         #print("Error:%s, Last value: %s, dsigma: %s, result: %s" % (error, self.last_value, self.activation.derivative(self.last_value), delta))
         self.db += delta*learning_rate
         for i in range(0, self.nb_inputs):
@@ -129,7 +142,7 @@ class Neuron(object):
 
 class NeuralNet(object):
 
-    def __init__(self, inputs_size, layers_sizes, activation, average_gradient):
+    def __init__(self, inputs_size, layers_sizes, activation, average_gradient=False):
         self.layers = []
         self.activation = activation
         self.average_gradient = average_gradient
@@ -144,9 +157,17 @@ class NeuralNet(object):
             result = [neuron.output(result, for_training) for neuron in layer]
         return result
 
+    def reverse_evaluate(self, inputs, for_training=False):
+        result = inputs
+        for layer in self.layers:
+            result = [neuron.output(result, for_training) for neuron in layer]
+        return result
+
     def per_eval_backprop(self, errors, learning_rate=1):
         result = errors
         for layer in reversed(self.layers):
+            #print("Error from previous layer: %s" % result)
+            #print("Layer: %s" % layer)
             new_result = None
             for r, neuron in zip(result, layer):
                 contrib = neuron.per_eval_backprop(r, learning_rate)
@@ -157,7 +178,6 @@ class NeuralNet(object):
                     new_result = [nr + c for nr, c in zip(new_result, contrib)]
             l = len(layer)
             result = [nr/l for nr in new_result]
-            #print("Propagate error to previous layer: %s" % result)
 
     def per_round_backprop(self):
         for layer in self.layers:
@@ -171,8 +191,8 @@ class NeuralNet(object):
             error = 0
             for j in range(0, samples_per_round):
                 # TODO: Understand ! Simply taking a random example seems to make the training much less efficient !
-                k = random.randint(0, nb_examples-1)
-                #k = i%nb_examples
+                #k = random.randint(0, nb_examples-1)
+                k = (i*samples_per_round + j)%nb_examples
                 result = self.evaluate(examples[k], for_training=True)
                 expected = [0]*nb_classes
                 expected[labels[k]] = 1
@@ -221,6 +241,20 @@ class NeuralNet(object):
             for layer in self.layers:
                 for neuron in layer:
                     f.write(",".join(["%s" % weight for weight in neuron.weights]) + ",%s\n" % neuron.bias)
+
+    def reverse(self):
+        nb_inputs = len(self.layers[-1])
+        layers = [len(l) for l in reversed(self.layers[:-1])]
+        layers.append(len(nn.layers[0][0].weights))
+        rev_nn = NeuralNet(nb_inputs, layers, self.activation)
+        for li, l in enumerate(self.layers):
+            rl = rev_nn.layers[-li-1]
+            for ni, n in enumerate(l):
+                rn = rl[ni]
+                rn.weights = [0] * len(n.weights)
+                for wi, w in enumerate(n.weights):
+                    rn.weights[wi] = w
+        return rev_nn
 
     def __str__(self):
         weights = ""
