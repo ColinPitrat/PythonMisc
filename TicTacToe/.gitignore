@@ -1,0 +1,6 @@
+*.csv
+*.ods
+*.pyc
+*.dat
+*.pkl
+models
