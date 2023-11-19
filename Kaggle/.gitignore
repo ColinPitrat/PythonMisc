@@ -1,0 +1,7 @@
+StanfordDogs/images
+StanfordDogs/data
+StanfordDogs/annotations
+*.csv
+*.keras
+*.history
+.ipynb_checkpoints
